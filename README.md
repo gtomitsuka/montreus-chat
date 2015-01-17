@@ -6,5 +6,7 @@ For installing it, you must first make sure Node.js is installed, then create a 
   `npm install express --save`
 <br>
   `npm install socket.io --save`
+<br>
+  `npm install markdown --save`
   
   After that, simply do `node app.js`
