@@ -7,4 +7,4 @@ For installing it, you must first make sure Node.js is installed, then create a 
 <br>
   `npm install socket.io --save`
   
-  After that, simply do `node chat.js`
+  After that, simply do `node app.js`
