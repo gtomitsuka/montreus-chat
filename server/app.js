@@ -4,7 +4,7 @@ var io = require('socket.io')(http);
 var markdown = require( "markdown" ).markdown;
 var fs = require('fs');
 app.get('/', function(req, res){
-        res.sendFile(__dirname + '/chat.html');
+        res.sendFile(__dirname + '/index.html');
         });
 var users = 0;
 io.on('connection', function(socket){
