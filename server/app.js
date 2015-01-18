@@ -11,43 +11,40 @@ var markdown = require('markdown-it')({
                                       quotes: '“”‘’',
                                       highlight: function() {return '';}
                                       });
-var fs = require('fs');
 app.get('/', function(req, res){
-        res.sendFile(__dirname + '/chat.html');
+        res.sendFile(__dirname + '/index.html');
         });
 var userArray = [];
 io.on('connection', function(socket){
-      var currentUser = new Object();
-      socket.on('auth_details', function(username){
-                currentUser.username = username;
-                currentUser.index = userArray.length;
+      var currentUser = {};
+      socket.on('auth_details', function(details){
+                currentUser.username = details.username;
+                currentUser.toString = function(){return this.name};
+                currentUser.location = userArray.length;
                 userArray.push(currentUser);
-                socket.emit('chat message', username + ' joined the chat');
                 });
       socket.on('postName', function(username){
-                socket.emit('chat message', currentUser.username + ' changed his username to ' + username);
                 currentUser.username = username;
                 });
-      io.emit('connections', userArray);
+      io.emit('connections', userArray.join("<br>"));
       socket.on('chat message', function(msg){
-                var messageToBeSent = "<p>" + currentUser.username + ": " + markdown.renderInline(msg) + "</p>";
+                var messageToBeSent = "<p>" + msg.username + ": " + markdown.renderInline(msg.message) + "</p>";
                 if(messageToBeSent.length <= 2048){
-                if(!verifyEmptyness(msg)){
-        io.emit('chat message', messageToBeSent);
-                }else{
-                    socket.emit('chat message', 'PM: Sorry, you cannot send empty messages.');
-                }
+                    if(!verifyEmptyness(msg.message)){
+                        io.emit('chat message', messageToBeSent);
+                    }else{
+                        socket.emit('chat message', 'PM: Sorry, you cannot send empty messages.');
+                    }
                 }else{
                     socket.emit('chat message', 'PM: Oops! You cannot send messages longer than 2048 characters. Sorry!');
                 }
                 });
       socket.on('users', function(){
-                
-                    io.emit('connections', userArray);
+                    io.emit('connections', userArray.join("<br>"));
                 });
       socket.on('disconnect', function(){
-                socket.emit('chat message', currentUser.username + ' left the chat');
-                io.emit('connections', userArray);
+                userArray.splice(currentUser.location, 1);
+                io.emit('connections', userArray.join("<br>"));
         });
       });
 http.listen(3000, function(){
