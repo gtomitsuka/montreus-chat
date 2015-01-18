@@ -59,6 +59,12 @@
                 top: 0;
                 right: 0;
             }
+            a:link {
+                color: #1e89cf;
+            }
+            a:visited {
+                color: #1e89cf;
+            }
             </style>
     </head>
     <body>
@@ -69,10 +75,11 @@
         </form>
         </div>
         <div id="sidebar">
-            <h1 style="top: 5%; width:100%; text-align: center; color: white; font-size: 22px; font-weight: 300;">Montreus Chat (v.1.1.1)</p>
+            <h1 style="top: 5%; width:100%; text-align: center; color: white; font-size: 22px; font-weight: 300;">Montreus Chat (v.1.2)</p>
             <p class="username" style="position: absolute; top: 6%; width:100%; text-align: center; color: white; font-size: 16px"></p><br>
             <div style="width: 100%; text-align: center; position: absolute; top: 9%;font-size:14px;">
             <button name="button" onClick="changeUsername()">Change Username</button>
+            <button name="button" style="top: 11%;" onClick="changeRoom()">Change Room</button>
             </div>
             <p class="connectionLabel" style="position: absolute; top: 15%; width:100%; text-align: center; color: white; font-size: 16px"></p><br>
             <p style="position: absolute; bottom: 5px; width:100%; text-align: center; color: white;font-size:14px;">&#0169;2015 by Montreus S-AG.</p>
@@ -81,37 +88,13 @@
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             var currentUser;
-            $(document).ready(function(){
-                              var username = localStorage.getItem('MTChat_Username');
-                              if(username === null){
-                              var returnedUsername = prompt("Welcome to Montreus Chat!\n Please type in an username. (Leave empty for no username at all)");
-                              if(returnedUsername !== null){
-                              localStorage.setItem('MTChat_Username', returnedUsername);
-                              currentUser = returnedUsername;
-                              }
-                              }else{
-                              currentUser = username;
-                              }
-                              $(".username").html("Welcome, " + currentUser);
-                              });
-                              function changeUsername(){
-                                  var returnedUsername = prompt("Your current username is " + currentUser + ".\nType in a new username:");
-                                  if(!verifyEmptyness(returnedUsername) && returnedUsername !== null){
-                                      localStorage.setItem('MTChat_Username', returnedUsername);
-                                      currentUser = returnedUsername;
-                                      $(".username").html("Welcome, " + currentUser);
-                                  }
-                              }
             var socket = io();
             $('form').submit(function(e){
                              e.preventDefault(); //For avoiding that the page auto refreshes
                              var messageInput = $('#messageInput').val();
                              if(!verifyEmptyness(messageInput)){
-                             var fullMessage;
-                             if(currentUser !== null){
-                             fullMessage = currentUser + ": " + messageInput;
-                             }
-                             socket.emit('chat message', fullMessage);
+                             socket.emit('postName', currentUser);
+                             socket.emit('chat message', messageInput);
                              $('#messageInput').val('');
                              return false;
                                 }
@@ -120,15 +103,34 @@
                                        $('#messages').append("<li>" + msg + "</li>");
                                        
                             });
-                            socket.on('connections', function(msg){
-                                      if(msg === 1){
-                                      $(".connectionLabel").html("There is currently 1 user online.");
-                                      }else{
-                                      $(".connectionLabel").html("There are currently " + msg + " users online");
-                                      }});
-                             socket.on('connect', function(){
-                                       
-                                       });
+                            socket.on('connections', function(userList){
+                                      $(".connectionLabel").html("Users online: <br>" + userList);
+                                      });
+                    $(document).ready(function(){
+                        var username = localStorage.getItem('MTChat_Username');
+                        if(username === null){
+                            var returnedUsername = prompt("Welcome to Montreus Chat!\n Please type in an username. (Leave empty for no username at all)");
+                                    if(returnedUsername !== null){
+                                        localStorage.setItem('MTChat_Username', returnedUsername);
+                                        currentUser = returnedUsername;
+                                    }
+                        }else{
+                            currentUser = username;
+                        }
+                            socket.emit('auth_details', currentUser);
+                            $(".username").html("Welcome, " + currentUser);
+                        });
+                        function changeUsername(){
+                            var oldUsername = currentUser;
+                            var returnedUsername = prompt("Your current username is " + currentUser + ".\nType in a new username:");
+                            if(!verifyEmptyness(returnedUsername) && returnedUsername !== null){
+                                localStorage.setItem('MTChat_Username', returnedUsername);
+                                currentUser = returnedUsername;
+                                $(".username").html("Welcome, " + currentUser);
+                                socket.emit('postName', currentUser);
+                                }
+                        }
+
                             //Thanks to Jano González from SE for this
                 var verifyEmptyness = function(str) {
                         return (str.length === 0 || !str.trim());
