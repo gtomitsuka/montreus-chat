@@ -28,7 +28,9 @@ io.on('connection', function(socket){
                 });
       io.emit('connections', userArray.join("<br>"));
       socket.on('chat message', function(msg){
-                var messageToBeSent = "<p>" + msg.username + ": " + markdown.renderInline(msg.message) + "</p>";
+                var escapedMessage = escapeHTML(msg.message);
+                var markedMessage =  markdown.renderInline(escapedMessage);
+                var messageToBeSent = "<p>" + escapeHTML(msg.username) + ": " + markedMessage + "</p>";
                 if(messageToBeSent.length <= 2048){
                     if(!verifyEmptyness(msg.message)){
                         io.emit('chat message', messageToBeSent);
@@ -53,3 +55,14 @@ http.listen(3000, function(){
 var verifyEmptyness = function(str) {
     return (str.length === 0 || !str.trim());
 };
+function escapeHTML(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
