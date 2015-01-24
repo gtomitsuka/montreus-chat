@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var moment = require('moment');
 var markdown = require('markdown-it')({
                                       html:         true,
                                       xhtmlOut:     true,
@@ -14,7 +15,6 @@ var markdown = require('markdown-it')({
 app.get('/', function(req, res){
         res.sendFile(__dirname + '/index.html');
         });
-var userArray = [];
 io.on('connection', function(socket){
       socket.on('auth_details', function(details){
                 socket.username = details.username;
@@ -28,7 +28,8 @@ io.on('connection', function(socket){
       socket.on('chat message', function(msg){
                 var escapedMessage = escapeHTML(msg.message);
                 var markedMessage =  markdown.renderInline(escapedMessage);
-                var messageToBeSent = "<p>" + escapeHTML(msg.username) + ": " + markedMessage + "</p>";
+                var messageDate = moment(msg.date).format("LT, D/M");
+                var messageToBeSent = '<p class="alignLeft">' + escapeHTML(msg.username) + ': ' + markedMessage + '</p><p class="alignRight">' + messageDate + '</p>';
                 if(messageToBeSent.length <= 8192){
                 if(!verifyEmptyness(msg.message)){
                 io.emit('chat message', messageToBeSent);
@@ -82,4 +83,4 @@ function escapeHTML(text) {
     };
     
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-                          }
+}
