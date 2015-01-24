@@ -3,7 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
 var markdown = require('markdown-it')({
-                                      html:         true,
+                                      html:         false,
                                       xhtmlOut:     true,
                                       breaks:       true,
                                       langPrefix:   'language-',
@@ -26,8 +26,7 @@ io.on('connection', function(socket){
       var socketsConnected = socketConnections();
       io.emit('connections', socketsConnected.length);
       socket.on('chat message', function(msg){
-                var escapedMessage = escapeHTML(msg.message);
-                var markedMessage =  markdown.renderInline(escapedMessage);
+                var markedMessage =  markdown.renderInline(msg.message);
                 var messageDate = moment(msg.date).format("LT, D/M");
                 var messageToBeSent = '<p class="alignLeft">' + escapeHTML(msg.username) + ': ' + markedMessage + '</p><p class="alignRight">' + messageDate + '</p>';
                 if(messageToBeSent.length <= 8192){
