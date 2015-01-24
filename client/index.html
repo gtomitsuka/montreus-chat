@@ -65,6 +65,12 @@
             a:visited {
                 color: #1e89cf;
             }
+            .alignLeft {
+                float:left;
+            }
+            .alignRight {
+                float:right;
+            }
             </style>
     </head>
     <body>
@@ -75,13 +81,16 @@
         </form>
         </div>
         <div id="sidebar">
-            <h1 style="top: 5%; width:100%; text-align: center; color: white; font-size: 22px; font-weight: 300;">Montreus Chat (v.1.2)</p>
-            <p class="username" style="position: absolute; top: 6%; width:100%; text-align: center; color: white; font-size: 16px"></p><br>
-            <div style="width: 100%; text-align: center; position: absolute; top: 9%;font-size:14px;">
+            <h1 style="width:100%; text-align: center; color: white; font-size: 22px; font-weight: 300; position: relative;">Montreus Chat (v.1.3.0)</p><br>
+            <p class="username" style="position: relative; width:100%; text-align: center; color: white; font-size: 16px"></p>
+            <div style="width: 100%; text-align: center; position: relative; font-size:14px;">
             <button name="button" onClick="changeUsername()">Change Username</button>
+            <button name="button" style="top: 11%;" onClick="changeRoom()">Change Room</button>
             </div>
-            <p class="connectionLabel" style="position: absolute; top: 15%; width:100%; text-align: center; color: white; font-size: 16px"></p><br>
-            <p style="position: absolute; bottom: 5px; width:100%; text-align: center; color: white;font-size:14px;">&#0169;2015 by Montreus S-AG.</p>
+            <br>
+            <p class="connectionLabel" style="position: relative; width:100%; text-align: center; color: white; font-size: 16px"></p><br>
+            <p style="position: relative; width:100%; text-align: center; color: white; font-size: 14px"><a href="http://github.com/gtomitsuka/montreus-chat">GitHub Source</a></p>
+            <p style="position: relative; width:100%; text-align: center; margin-bottom: 10px; color: white;font-size:14px;">&#0169;2015 by Montreus S-AG.</p>
         </div>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -92,20 +101,20 @@
                              e.preventDefault(); //For avoiding that the page auto refreshes
                              var messageInput = $('#messageInput').val();
                              if(!verifyEmptyness(messageInput)){
-                             var messageToSend = {message: messageInput, username: currentUser};
+                             var messageToSend = {
+                                                message: messageInput,
+                                                username: currentUser,
+                                                date: Date.now()
+                             };
                              socket.emit('chat message', messageToSend);
                              $('#messageInput').val('');
                              return false;
                                 }
                              });
                              socket.on('chat message', function(msg){
-                                       $('#messages').append("<li>" + msg + "</li>");
+                                       $('#messages').append('<li style="display: table; width: 100%;">' + msg + "</li>");
                                        
                             });
-                            socket.on('connect', function(){
-                                      var authDetails = {username: currentUser};
-                                      socket.emit('authDetails', authDetails);
-                                      });
                             socket.on('connections', function(userList){
                                       $(".connectionLabel").html("Users online: <br>" + userList);
                                       });
@@ -120,6 +129,8 @@
                         }else{
                             currentUser = username;
                         }
+                            var authDetails = {username: currentUser};
+                            socket.emit('auth_details', authDetails);
                             $(".username").html("Welcome, " + currentUser);
                         });
                         function changeUsername(){
