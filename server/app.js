@@ -13,9 +13,10 @@ var markdown = require('markdown-it')({
                                       highlight: function() {return '';}
                                       });
 app.get('/', function(req, res){
-        res.sendFile(__dirname + '/index.html');
+        res.sendFile(__dirname + '/chat.html');
         });
 io.on('connection', function(socket){
+      if(socketConnections().length <= 1024){
       socket.on('auth_details', function(details){
                 socket.username = details.username;
                 socket.toString = function(){return this.name};
@@ -47,6 +48,12 @@ io.on('connection', function(socket){
                 var socketsConnected = socketConnections();
                 io.emit('connections', socketsConnected.length);
                 });
+      }else{
+      socket.emit('chat message', 'PM: Sorry, we cannot allow more than 1024 connections in the server');
+      socket.emit('chat message', 'PM: Disconnecting! Try again later.');
+      socket.emit('connections', 'You are not connected.');
+      socket.disconnect();
+      }
       });
 http.listen(3030, function(){
             console.log('listening on *:3030');
