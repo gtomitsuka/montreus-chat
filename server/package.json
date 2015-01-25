@@ -1,0 +1,30 @@
+{
+  "name": "montreus-chat",
+  "version": "1.3.1",
+  "description": "Montreus Chat - A Node.js + Socket.io Chat",
+  "main": "chat.js",
+  "dependencies": {
+    "express": "^4.11.1",
+    "forever": "^0.13.0",
+    "markdown-it": "^3.0.4",
+    "moment": "^2.9.0",
+    "socket.io": "^1.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node chat.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gtomitsuka/montreus-chat"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "gtomitsuka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gtomitsuka/montreus-chat/issues"
+  },
+  "homepage": "https://github.com/gtomitsuka/montreus-chat"
+}
