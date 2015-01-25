@@ -5,4 +5,4 @@ For installing it, you must first make sure Node.js is installed, then create a 
 <br>
   `npm install`
 <br>
-  `node app.js` OR `forever start app.js`
+  `node app.js` or `forever start app.js`
