@@ -48,7 +48,7 @@ io.on('connection', function(socket){
                   socket.emit('chat message', 'PM: Oops! You cannot send messages longer than 8192 characters. Sorry!');
                 }
             }else{
-                socket.emit('chat message', 'Montreus Chat - v1.3.2<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message');
+                socket.emit('chat message', 'Montreus Chat - v1.3.3<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message');
             }
         });
       socket.on('users', function(){
