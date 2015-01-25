@@ -13,7 +13,7 @@ var markdown = require('markdown-it')({
                                       highlight: function() {return '';}
                                       });
 app.get('/', function(req, res){
-        res.sendFile(__dirname + '/chat.html');
+        res.sendFile(__dirname + '/index.html');
         });
 io.on('connection', function(socket){
       if(socketConnections().length <= 1024){
