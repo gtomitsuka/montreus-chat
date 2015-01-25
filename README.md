@@ -10,7 +10,7 @@ For installing it, you must first make sure Node.js is installed, then create a 
   `node app.js` or `forever start app.js`
 
 ## Commands
-Here we'll show you the commands you can use at Montreus Chat:
+These are the available Montreus Chat commands as of v1.3.x:
 
     /help
     /bot-say <message>
