@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>Montreus Chat</title>
+        <link rel="stylesheet" type="text/css" href="reset.css">
+        <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">
         <style>
             * {
                 margin: 0;
@@ -79,7 +81,14 @@
         <div id="main">
         <ul id="messages"></ul>
         <form action="">
-            <input id="messageInput" autocomplete="off" /><button>Send</button>
+         
+            <!--<input id="messageInput" autocomplete="off" /><button>Send</button> // Maybe not needed-->
+            <div class="small-10 columns">
+                <input type="text" placeholder="Hex Value">
+            </div>
+            <div class="small-2 columns">
+                <a href="#" class="button postfix">Go</a>
+            </div>
         </form>
         </div>
         <div id="sidebar">
@@ -96,6 +105,7 @@
         </div>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="http://cdn.foundation5.zurb.com/foundation.js"></script>
         <script>
             var currentUser;
                     $(document).ready(function(){
