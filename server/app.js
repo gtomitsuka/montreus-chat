@@ -1,6 +1,6 @@
-/*
-
-
+/* server/app.js
+ * Main Server File
+ * Open-source! Free for all
 */
 //APIs
 var app = require('express')();
@@ -33,30 +33,16 @@ io.on('connection', function(socket){
         var socketsConnected = socketConnections();
         io.emit('connections', socketsConnected.length);
         socket.on('chat message', function(msg){
-            var markedMessage =  markdown.renderInline(msg.message);
-            var messageDate = moment(msg.date).format("LT, D/M");
-            var firstWord = markedMessage.substr(0, markedMessage.indexOf(" "));
-            if(msg.message !== "/help"){
-            if(firstWord === "/broadcast"){
-            var finalMessage = markedMessage.substr(markedMessage.indexOf(" ") + 1);
-             var messageToBeSent = '<p class="alignLeft"> BROADCAST: ' + finalMessage + '</p><p class="alignRight">' + messageDate + '</p>';
-            }else if(firstWord === "/bot-say"){
-                var finalMessage = markedMessage.substr(markedMessage.indexOf(" ") + 1);
-                var messageToBeSent = '<p class="alignLeft"> Chat bot: ' + finalMessage + '</p><p class="alignRight">' + messageDate + '</p>';
-            }else{
-            var messageToBeSent = '<p class="alignLeft">' + html.escape(msg.username) + ': ' + markedMessage + '</p><p class="alignRight">' + messageDate + '</p>';
-            }
-            if(messageToBeSent.length <= 8192){
-                  if(!verifyEmptyness(msg.message)){
-                    io.emit('chat message', messageToBeSent);
-                  }else{
-                  socket.emit('chat message', 'PM: Sorry, you cannot send empty messages.');
-                  }
+            if(!verifyEmptyness(msg)){
+                var result = processMessage(msg);
+                if(result.sendToAll === true){
+                    io.emit('chat message', result.message);
                 }else{
-                  socket.emit('chat message', 'PM: Oops! You cannot send messages longer than 8192 characters. Sorry!');
+                    socket.emit('chat message', result.message);
                 }
             }else{
-                socket.emit('chat message', 'Montreus Chat - v1.3.3<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message');
+                var time = moment(msg.date).format("LT, D/M");
+                socket.emit('chat message', generateMessage("You may not send empty messages", time, false));
             }
         });
       socket.on('users', function(){
