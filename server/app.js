@@ -17,13 +17,23 @@ var markdown = require('markdown-it')({
     quotes: '“”‘’',
     highlight: function() {return '';}
 });
-//Globals and Montreus APIs
-var rooms = require("./rooms");
+
 
 //Connection Handlers
 app.get('/', function(req, res){
     res.status(200).sendFile(__dirname + '/index.html');
 });
+//Uses EJS
+var roomRouter = express.Router();
+roomRouter.set('view engine', 'ejs');
+roomRouter.get('/room/:id/', function(req, res){
+    res.send("Maintenance");
+});
+//Public Folder
+var pagesRouter = express.Router();
+pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
+app.use('/', pagesRouter);
+
 io.on('connection', function(socket){
       if(socketConnections().length <= 1024){
         socket.username = socket.handshake.query.username;
@@ -60,6 +70,7 @@ io.on('connection', function(socket){
       socket.disconnect();
       }
 });
+
 var processMessage = function(message){
     var response = {};
     var time = moment(message.date).format("LT, D/M");
