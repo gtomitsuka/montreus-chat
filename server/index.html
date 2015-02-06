@@ -494,15 +494,12 @@ h1 span{
                     }
                 });
 
-                if($( document ).width() >= 850){
-                }else{
-                    $('#sidebar').mmenu();
+                if($( document ).width() < 850){
+                  $('#sidebar').mmenu();
                 }
                 ( window ).resize(function() {
-                    if($( document ).width() >= 850){
-                    }else{
+                    if($( document ).width() < 850){
                         $('#sidebar').mmenu();
-                    }
                 });
 
             });
