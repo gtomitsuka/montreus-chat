@@ -1,24 +1,32 @@
+/*
+
+
+*/
+//APIs
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
 var markdown = require('markdown-it')({
-                                      html:         false,
-                                      xhtmlOut:     true,
-                                      breaks:       true,
-                                      langPrefix:   'language-',
-                                      linkify:      true,
-                                      typographer:  true,
-                                      quotes: '“”‘’',
-                                      highlight: function() {return '';}
-                                      });
+    html: false,
+    xhtmlOut: true,
+    breaks: true,
+    langPrefix: 'language-',
+    linkify: true,
+    typographer: true,
+    quotes: '“”‘’',
+    highlight: function() {return '';}
+});
+//Globals and Montreus APIs
+var rooms = require("./rooms");
+
+//Connection Handlers
 app.get('/', function(req, res){
-        res.sendFile(__dirname + '/index.html');
-        });
+    res.status(200).sendFile(__dirname + '/index.html');
+});
 io.on('connection', function(socket){
       if(socketConnections().length <= 1024){
         socket.username = socket.handshake.query.username;
-        socket.toString = function(){return this.name};
         socket.on('postName', function(username){
                 socket.username = username;
                 });
@@ -36,7 +44,7 @@ io.on('connection', function(socket){
                 var finalMessage = markedMessage.substr(markedMessage.indexOf(" ") + 1);
                 var messageToBeSent = '<p class="alignLeft"> Chat bot: ' + finalMessage + '</p><p class="alignRight">' + messageDate + '</p>';
             }else{
-            var messageToBeSent = '<p class="alignLeft">' + escapeHTML(msg.username) + ': ' + markedMessage + '</p><p class="alignRight">' + messageDate + '</p>';
+            var messageToBeSent = '<p class="alignLeft">' + html.escape(msg.username) + ': ' + markedMessage + '</p><p class="alignRight">' + messageDate + '</p>';
             }
             if(messageToBeSent.length <= 8192){
                   if(!verifyEmptyness(msg.message)){
@@ -65,7 +73,70 @@ io.on('connection', function(socket){
       socket.emit('connections', 'You are not connected.');
       socket.disconnect();
       }
-      });
+});
+var processMessage = function(message){
+    var response = {};
+    var time = moment(message.date).format("LT, D/M");
+    if(messageToBeSent.length <= 8192){
+    if(message.slice(0,1) !== "/"){
+        response.message = generateMessage(message.message, time, true, message.username);
+        response.sendToAll = true;
+    }else{
+        var command = firstWord(message.message);
+        switch(command){
+            case "/help":
+                response.message = generateMessage("Montreus Chat - v1.4<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message</p>", time, false);
+                response.sendToAll = false;
+            break;
+            case "/bot-say":
+                response.message = generateMessage(otherWords(message.message), time, true, "Chat bot");
+                response.sendToAll = true;
+            break;
+            case "/broadcast":
+                response.message = generateMessage(otherWords(message.message), time, true, "BROADCAST");
+                response.sendToAll = true;
+            break;
+            case "/me":
+                response.message = generateMessage("Montreus Chat - v1.4<br>Username: " + message.username, time, false);
+                response.sendToAll = false;
+            break;
+            case "/version":
+                response.message = generateMessage("Montreus Chat - v1.4", time, false);
+                response.sendToAll = false;
+            break;
+            default:
+                response.message = generateMessage("Invalid command", time, false);
+                response.sendToAll = false;
+        }
+    }
+    }else{
+        response.message = generateMessage("Oh oh! Sorry, you cannot send messages longer than 8192 characters.", time, false, "PM");
+        response.sendToAll = false;
+    }
+    return response;
+}
+var generateMessage = function(message, time, processMarkdown, username){
+    var msg;
+    var htmlMsg;
+    var date = moment(message.date).format("LT, D/M");
+    if(processMarkdown === true){
+        msg = markdown.renderInline(message);
+    } else{
+        msg = message;
+    }
+    if(username != undefined){
+        htmlMsg = '<p class="alignLeft">' + html.escape(username) + ': ' + msg + '</p><p class="alignRight">' + date + '</p>';
+    }else{
+        htmlMsg = '<p class="alignLeft">' + msg + '</p><p class="alignRight">' + date + '</p>';
+    }
+    return htmlMsg;
+}
+var firstWord = function(string){
+    return string.substr(0, markedMessage.indexOf(" "));
+}
+var otherWords = function(string){
+    return string.indexOf(" ") + 1;
+}
 http.listen(3030, function(){
             console.log('listening on *:3030');
             });
@@ -73,13 +144,13 @@ var verifyEmptyness = function(str) {
     return (str.length === 0 || !str.trim());
 };
 function socketConnections(roomId, namespace) {
-    var res = []
-    , ns = io.of(namespace ||"/");    // the default namespace is "/"
-    
+    var res = [];
+    var ns = io.of(namespace ||"/");
+
     if (ns) {
         for (var id in ns.connected) {
             if(roomId) {
-                var index = ns.connected[id].rooms.indexOf(roomId) ;
+                var index = ns.connected[id].rooms.indexOf(roomId);
                 if(index !== -1) {
                     res.push(ns.connected[id]);
                 }
@@ -90,14 +161,15 @@ function socketConnections(roomId, namespace) {
     }
     return res;
 }
-function escapeHTML(text) {
-    var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    
+var html = {
+    escape: function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
 }
