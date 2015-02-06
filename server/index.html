@@ -459,7 +459,7 @@ border-radius: 1em;*/
        
 
         <div id="main">
-            <ul id="messages"><li class="sb-toggle-left" style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li><li style="display: table; width: 100%;">Test</li></ul>
+            <ul id="messages"></ul>
             <form action="">
          
        <!--  <input id="messageInput" autocomplete="off" /><button>Send</button>  -->
@@ -559,19 +559,19 @@ border-radius: 1em;*/
                                 $(".connectionLabel").html(userList);
                                       }
                             });
-                                $(function() {
-                                    if($( document ).width() >= 850){
+                                
+                            if($( document ).width() >= 850){
+                                
+                            }else{
+                                $('#sidebar').mmenu();
+                            }
+           
+                            $( window ).resize(function() {
+                                if($( document ).width() >= 850){
 
-                                    }else{
-                $('#sidebar').mmenu();
-            }
-            });
-$( window ).resize(function() {
-          if($( document ).width() >= 850){
-
-                                    }else{
-                $('#sidebar').mmenu();
-            }
+                                }else{
+                                    $('#sidebar').mmenu();
+                                }
 });
 
                         });
