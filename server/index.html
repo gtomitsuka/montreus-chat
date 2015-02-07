@@ -410,6 +410,7 @@ h1 span{
                 </div>
             </form>
         </div>
+        <div id="replaceHolder"></div>
         <div id="sidebar">
             <!-- Here's a div needed because the mmenu plugin would otherwise only display the first div. That means you wouldn't see the footer of the sidebar -->
             <div>
@@ -495,16 +496,19 @@ h1 span{
                         $(".connectionLabel").html(userList);
                     }
                 });
-
+                /* This part is needed to make a responsive siebar: */
+                var origElement = $('#sidebar').clone();
                 if($( document ).width() < 850){
                   $('#sidebar').mmenu();
                 }
                 $( window ).resize(function() {
                     if($( document ).width() < 850){
                         $('#sidebar').mmenu();
+                        $('#replaceHolder').html('');
+                    }else{
+                       $('#replaceHolder').html(origElement);
                     }
                 });
-
             });
             function changeUsername(){
                 var oldUsername = currentUser;
