@@ -43,7 +43,7 @@ io.on('connection', function(socket){
         var socketsConnected = socketConnections();
         io.emit('connections', socketsConnected.length);
         socket.on('chat message', function(msg){
-            if(!verifyEmptyness(msg)){
+            if(!verifyEmptyness(msg.message)){
                 var result = processMessage(msg);
                 if(result.sendToAll === true){
                     io.emit('chat message', result.message);
