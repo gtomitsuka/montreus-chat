@@ -3,7 +3,8 @@
  * Open-source! Free for all
 */
 //APIs
-var app = require('express')();
+var express = require("express"); //Express.js - Serve pages
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
