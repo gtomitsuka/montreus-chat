@@ -15,3 +15,4 @@ These are the available Montreus Chat commands as of v1.3.x:
     /help
     /bot-say <message>
     /broadcast <message>
+    /me
