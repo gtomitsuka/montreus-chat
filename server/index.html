@@ -273,6 +273,8 @@ h1 span{
         background-color: #dbdbdb;
         float: right;
         width: 20%;
+        border-left: solid 0.1em #f6f6f6;
+           box-shadow: 10px 10px 5px #888888;
     }
     h1, h2, h3, h4, h5, h6{
         margin-bottom: 0px;
@@ -406,7 +408,7 @@ h1 span{
                         </div>
                     </div>
                 </div>
-            /form>
+            </form>
         </div>
         <div id="sidebar">
             <!-- Here's a div needed because the mmenu plugin would otherwise only display the first div. That means you wouldn't see the footer of the sidebar -->
@@ -500,6 +502,7 @@ h1 span{
                 ( window ).resize(function() {
                     if($( document ).width() < 850){
                         $('#sidebar').mmenu();
+                    }
                 });
 
             });
