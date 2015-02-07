@@ -3,7 +3,8 @@
  * Open-source! Free for all
 */
 //APIs
-var app = require('express')();
+var express = require("express"); //Express.js - Serve pages
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
@@ -18,22 +19,26 @@ var markdown = require('markdown-it')({
     highlight: function() {return '';}
 });
 
+//Globals
+var day = 86400000;
 
 //Connection Handlers
 app.get('/', function(req, res){
     res.status(200).sendFile(__dirname + '/index.html');
 });
 //Uses EJS
-var roomRouter = express.Router();
+/*var roomRouter = express.Router();
 roomRouter.set('view engine', 'ejs');
 roomRouter.get('/room/:id/', function(req, res){
     res.send("Maintenance");
-});
+});*/
 //Public Folder
 var pagesRouter = express.Router();
 pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
 app.use('/', pagesRouter);
 
+
+//Sockets
 io.on('connection', function(socket){
       if(socketConnections().length <= 1024){
         socket.username = socket.handshake.query.username;
@@ -74,8 +79,8 @@ io.on('connection', function(socket){
 var processMessage = function(message){
     var response = {};
     var time = moment(message.date).format("LT, D/M");
-    if(messageToBeSent.length <= 8192){
-    if(message.slice(0,1) !== "/"){
+    if(message.message.length <= 8192){
+    if(message.message.slice(0,1) !== "/"){
         response.message = generateMessage(message.message, time, true, message.username);
         response.sendToAll = true;
     }else{
