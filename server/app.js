@@ -27,11 +27,11 @@ app.get('/', function(req, res){
     res.status(200).sendFile(__dirname + '/index.html');
 });
 //Uses EJS
-var roomRouter = express.Router();
+/*var roomRouter = express.Router();
 roomRouter.set('view engine', 'ejs');
 roomRouter.get('/room/:id/', function(req, res){
     res.send("Maintenance");
-});
+});*/
 //Public Folder
 var pagesRouter = express.Router();
 pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
