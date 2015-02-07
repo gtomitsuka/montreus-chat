@@ -131,11 +131,6 @@ h1{
     text-align: center;
     color: #f6f6f6;
     margin-bottom: 1em;
-    font-weight: bold;
-}
-.username span{
-    font-weight: normal;
-    font-size: 1.5em;
 }
 #sidebar footer{
     position: initial;
@@ -331,11 +326,6 @@ h1 span{
         margin-bottom: 1em;
     }
 
-    .username span{
-        font-weight: normal;
-        font-size: 1.5em;
-    }
-
     #sidebar footer{
         position: inherit;
         text-align: center;
@@ -452,8 +442,8 @@ h1 span{
         <script>
             var currentUser;
             $(document).ready(function(){
-                var nameMessageHTMLPatternBegin = "Welcome<span id='name'>";
-                var nameMessageHTMLPatternEnd = "</span>";
+                var nameMessageHTMLPatternBegin = "Welcome, ";
+                var nameMessageHTMLPatternEnd = "";
                 var username = localStorage.getItem('MTChat_Username');
                 if(username === null){
                     var returnedUsername = prompt("Welcome to Montreus Chat!\n Please type in an username. (Leave empty for no username at all)");
