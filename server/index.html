@@ -351,7 +351,7 @@ h1 span{
         float: left;
         margin-right: 0%;
         width: 80%;
-        background-color: #fff;
+        background-color: white;
     }
     #messages li{
         color: #060606;
@@ -427,7 +427,7 @@ h1 span{
                         </a>
                     </p>
                     <p id="copyright">
-                        &#0169; 2015 by Montreus S-AG.
+                        &#0169;2015 by Montreus S-AG.
                     </p>
                 </footer>
                 <div style="clear:both;"></div>
@@ -443,7 +443,6 @@ h1 span{
             var currentUser;
             $(document).ready(function(){
                 var nameMessageHTMLPatternBegin = "Welcome, ";
-                var nameMessageHTMLPatternEnd = "";
                 var username = localStorage.getItem('MTChat_Username');
                 if(username === null){
                     var returnedUsername = prompt("Welcome to Montreus Chat!\n Please type in an username. (Leave empty for no username at all)");
@@ -454,7 +453,7 @@ h1 span{
                 }else{
                     currentUser = username;
                 }
-                $(".username").html(nameMessageHTMLPatternBegin + currentUser + nameMessageHTMLPatternEnd);
+                $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                 var connectionQuery = "username=" + currentUser;
                 var socket = io.connect("" , {query:connectionQuery});
                 $('form').submit(function(e){
@@ -503,7 +502,7 @@ h1 span{
                 if(!verifyEmptyness(returnedUsername) && returnedUsername !== null){
                     localStorage.setItem('MTChat_Username', returnedUsername);
                     currentUser = returnedUsername;
-                    $(".username").html(nameMessageHTMLPatternBegin + currentUser + nameMessageHTMLPatternEnd);
+                    $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                     socket.emit('postName', currentUser);
                 }
             }
