@@ -19,6 +19,8 @@ var markdown = require('markdown-it')({
     highlight: function() {return '';}
 });
 
+//Globals
+var day = 86400000;
 
 //Connection Handlers
 app.get('/', function(req, res){
@@ -35,6 +37,8 @@ var pagesRouter = express.Router();
 pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
 app.use('/', pagesRouter);
 
+
+//Sockets
 io.on('connection', function(socket){
       if(socketConnections().length <= 1024){
         socket.username = socket.handshake.query.username;
