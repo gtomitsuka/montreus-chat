@@ -8,6 +8,7 @@ body {
     max-height: 100%;
     overflow:visible;
     padding-bottom: 70px;
+    background-color: #f6f6f6;
 }
 form {
     background: #dbdbdb;
@@ -48,9 +49,6 @@ form button {
 #messages li {
     padding: 5px 10px;
     font-size: 1.4em;
-}
-body {
-    background-color: #3d3d3d;
 }
 #sidebar {
     background-color: #dbdbdb;
@@ -103,7 +101,7 @@ button:hover{
 }
 header{
     padding: 0.5em 2% 0.5em 2%;
-    background-color: #0d0d0d;
+    background-color: #1d1d1d;
     color: #f6f6f6;
     margin-top:0px;
     border-bottom: solid 0.1em white;
@@ -244,9 +242,6 @@ h1 span{
         padding: 5px 10px;
         font-size: 1.4em;
     }
-    body {
-        background-color: #3d3d3d;
-    }
     #sidebar {
         background-color: #dbdbdb;
         float: right;
@@ -293,6 +288,7 @@ h1 span{
         color: #f6f6f6;
         margin-top:0px;
         border-bottom: solid 0.1em white;
+        display: none;
     }
     header h1{
         color: #f6f6f6;
