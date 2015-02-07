@@ -80,7 +80,7 @@ var processMessage = function(message){
     var response = {};
     var time = moment(message.date).format("LT, D/M");
     if(message.message.length <= 8192){
-    if(message.slice(0,1) !== "/"){
+    if(message.message.slice(0,1) !== "/"){
         response.message = generateMessage(message.message, time, true, message.username);
         response.sendToAll = true;
     }else{
