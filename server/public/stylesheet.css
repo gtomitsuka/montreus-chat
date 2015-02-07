@@ -10,6 +10,9 @@ body {
     padding-bottom: 70px;
     background-color: #f6f6f6;
 }
+p{
+    margin-bottom: 0%;
+}
 form {
     background: #dbdbdb;
     position: fixed;
@@ -109,6 +112,7 @@ header{
 header h1{
     color: #f6f6f6;
     margin-top:0px;
+    text-shadow: 2px 1px 4px #a6a6a6;
 }
 h1{
     margin-top:0px;
@@ -246,6 +250,7 @@ h1 span{
         background-color: #dbdbdb;
         float: right;
         width: 20%;
+
     }
     h1, h2, h3, h4, h5, h6{
         margin-bottom: 0px;
