@@ -251,8 +251,6 @@ h1 span{
         background-color: #dbdbdb;
         float: right;
         width: 20%;
-        border-left: solid 0.1em #f6f6f6;
-           box-shadow: 10px 10px 5px #888888;
     }
     h1, h2, h3, h4, h5, h6{
         margin-bottom: 0px;
