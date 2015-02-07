@@ -283,6 +283,9 @@ h1 span{
         position: fixed;
         right: 0;
     }
+    #sidebar{
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
     #sidebar > div{
        padding-right: 0%;
        padding-left: 0%;
