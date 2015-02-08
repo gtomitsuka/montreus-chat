@@ -30,7 +30,7 @@
                             <input autocomplete="off" id="messageInput" type="text" placeholder="Your message">
                         </div>
                         <div class="small-2 columns">
-                            <a href="#" class="button postfix">Send Message</a>
+                            <a id="message-send-button" href="#" class="button postfix">Send Message</a>
                         </div>
                     </div>
                 </div>
@@ -130,6 +130,7 @@
                        $('#replaceHolder').html(origElement);
                     }
                 });
+                $('#message-send-button').click(function(){$('form').submit();});
             });
             function changeUsername(){
                 var oldUsername = currentUser;

@@ -7,6 +7,11 @@ body {
     font: 16px "Helvetica Neue", Helvetica, Arial;
     max-height: 100%;
     overflow:visible;
+    padding-bottom: 70px;
+    background-color: #f6f6f6;
+}
+p{
+    margin-bottom: 0%;
 }
 form {
     background: #dbdbdb;
@@ -47,9 +52,6 @@ form button {
 #messages li {
     padding: 5px 10px;
     font-size: 1.4em;
-}
-body {
-    background-color: #3d3d3d;
 }
 #sidebar {
     background-color: #dbdbdb;
@@ -102,7 +104,7 @@ button:hover{
 }
 header{
     padding: 0.5em 2% 0.5em 2%;
-    background-color: #0d0d0d;
+    background-color: #1d1d1d;
     color: #f6f6f6;
     margin-top:0px;
     border-bottom: solid 0.1em white;
@@ -110,6 +112,7 @@ header{
 header h1{
     color: #f6f6f6;
     margin-top:0px;
+    text-shadow: 2px 1px 4px #a6a6a6;
 }
 h1{
     margin-top:0px;
@@ -243,15 +246,11 @@ h1 span{
         padding: 5px 10px;
         font-size: 1.4em;
     }
-    body {
-        background-color: #3d3d3d;
-    }
     #sidebar {
         background-color: #dbdbdb;
         float: right;
         width: 20%;
-        border-left: solid 0.1em #f6f6f6;
-           box-shadow: 10px 10px 5px #888888;
+
     }
     h1, h2, h3, h4, h5, h6{
         margin-bottom: 0px;
@@ -284,6 +283,9 @@ h1 span{
         position: fixed;
         right: 0;
     }
+    #sidebar{
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
     #sidebar > div{
        padding-right: 0%;
        padding-left: 0%;
@@ -294,6 +296,7 @@ h1 span{
         color: #f6f6f6;
         margin-top:0px;
         border-bottom: solid 0.1em white;
+        display: none;
     }
     header h1{
         color: #f6f6f6;
