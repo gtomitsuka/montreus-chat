@@ -48,7 +48,7 @@ roomRouter.get('/room/:id/', function(req, res){
     var roomId;
     for(var i = 0; i < rooms.length; i++){
       var room = rooms[i];
-        if(room.number === id){
+        if(room.number == id){
             roomName = room.name;
             roomId = room.roomId;
         }
