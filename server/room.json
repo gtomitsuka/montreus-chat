@@ -11,7 +11,7 @@
   "number" : 900,
   "roomId" : "MT900"
 }, {
-  "name" : "Home"
+  "name" : "Home",
   "number" : 101010,
   "roomId" : "MT101010"
 }]
