@@ -17,7 +17,7 @@
                     <div class="border-menu">
                     </div>
                 </a>
-                <span>Montreus Chat</span>
+                <span><%= title %></span>
             </h1>
         </header>
         <div id="main">
@@ -76,11 +76,11 @@
         <script type="text/javascript" src="jquery.mmenu.min.all.js"></script>
         <script>
             var currentUser;
-            $(document).ready(function(){
+            $(function(){
                 var nameMessageHTMLPatternBegin = "Welcome, ";
                 var username = localStorage.getItem('MTChat_Username');
                 if(username === null){
-                    var returnedUsername = prompt("Welcome to Montreus Chat!\n Please type in an username. (Leave empty for no username at all)");
+                    var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");
                     if(returnedUsername !== null){
                         localStorage.setItem('MTChat_Username', returnedUsername);
                         currentUser = returnedUsername;
@@ -89,7 +89,7 @@
                     currentUser = username;
                 }
                 $(".username").html(nameMessageHTMLPatternBegin + currentUser);
-                var connectionQuery = "username=" + currentUser;
+                var connectionQuery = "username=" + currentUser + "&room=<%= id %>";
                 var socket = io.connect("" , {query:connectionQuery});
                 $('form').submit(function(e){
                     e.preventDefault(); //For avoiding that the page auto refreshes
