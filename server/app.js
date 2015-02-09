@@ -43,14 +43,14 @@ app.get('/', function(req, res){
 //Uses EJS
 var roomRouter = express.Router();
 roomRouter.get('/room/:id/', function(req, res){
-    var id = parseInt(req.params.id);
+    var id = req.params.id;
     var roomName;
     var roomId;
-    for(room in rooms){
+    for(var i = 0; i < rooms.length; i++){
+      var room = rooms[i];
         if(room.number === id){
             roomName = room.name;
             roomId = room.roomId;
-            return;
         }
     }
     if(roomName == null){
