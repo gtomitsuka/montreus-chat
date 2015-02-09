@@ -56,7 +56,7 @@ roomRouter.get('/room/:id/', function(req, res){
         res.status(404).send("Oh oh! This room sadly doesn't exist.");
     }else{
         res.set('Content-Type', 'text/html');
-        res.send(ejs.render(indexEJS, {title: roomName, id: roomId}));
+        res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId}));
     }
 });
 //Public Folder
@@ -73,13 +73,13 @@ io.on('connection', function(socket){
         socket.on('postName', function(username){
                 socket.username = username;
                 });
-        var socketsConnected = socketConnections();
-        io.emit('connections', socketsConnected.length);
+        var socketsConnected = socketConnections(socket.handshake.query.room);
+        io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
         socket.on('chat message', function(msg){
             if(!verifyEmptyness(msg.message)){
                 var result = processMessage(msg);
                 if(result.sendToAll === true){
-                    io.emit('chat message', result.message);
+                    io.in(socket.handshake.query.room).emit('chat message', result.message);
                 }else{
                     socket.emit('chat message', result.message);
                 }
@@ -89,12 +89,12 @@ io.on('connection', function(socket){
             }
         });
       socket.on('users', function(){
-                var socketsConnected = socketConnections();
-                io.emit('connections', socketsConnected.length);
+                var socketsConnected = socketConnections(socket.handshake.query.room);
+                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
                 });
       socket.on('disconnect', function(){
-                var socketsConnected = socketConnections();
-                io.emit('connections', socketsConnected.length);
+                var socketsConnected = socketConnections(socket.handshake.query.room);
+                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
                 });
       }else{
       socket.emit('chat message', 'PM: Sorry, we cannot allow more than 1024 connections in the server');
