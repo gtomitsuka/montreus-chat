@@ -8,6 +8,8 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
+var ejs = require('ejs');
+var fs = require("fs");
 var markdown = require('markdown-it')({
     html: false,
     xhtmlOut: true,
@@ -21,17 +23,43 @@ var markdown = require('markdown-it')({
 
 //Globals
 var day = 86400000;
+var rooms = require("./room"); //JSON with Rooms
+
+//Init EJS
+var indexEJS;
+fs.readFile('./index.ejs', 'utf8', function (error, data) {
+  if(error){
+    console.log(error)
+  }else{
+  indexEJS = data;
+  }
+});
+
 
 //Connection Handlers
 app.get('/', function(req, res){
     res.status(200).sendFile(__dirname + '/index.html');
 });
 //Uses EJS
-/*var roomRouter = express.Router();
-roomRouter.set('view engine', 'ejs');
+var roomRouter = express.Router();
 roomRouter.get('/room/:id/', function(req, res){
-    res.send("Maintenance");
-});*/
+    var id = parseInt(req.params.id);
+    var roomName;
+    var roomId;
+    for(room in rooms){
+        if(room.number === id){
+            roomName = room.name;
+            roomId = room.roomId;
+            return;
+        }
+    }
+    if(roomName == null){
+        res.status(404).send("Oh oh! This room sadly doesn't exist.");
+    }else{
+        res.set('Content-Type', 'text/html');
+        res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId}));
+    }
+});
 //Public Folder
 var pagesRouter = express.Router();
 pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
@@ -42,16 +70,17 @@ app.use('/', pagesRouter);
 io.on('connection', function(socket){
       if(socketConnections().length <= 1024){
         socket.username = socket.handshake.query.username;
+        socket.join(socket.handshake.query.room);
         socket.on('postName', function(username){
                 socket.username = username;
                 });
-        var socketsConnected = socketConnections();
-        io.emit('connections', socketsConnected.length);
+        var socketsConnected = socketConnections(socket.handshake.query.room);
+        io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
         socket.on('chat message', function(msg){
             if(!verifyEmptyness(msg.message)){
                 var result = processMessage(msg);
                 if(result.sendToAll === true){
-                    io.emit('chat message', result.message);
+                    io.in(socket.handshake.query.room).emit('chat message', result.message);
                 }else{
                     socket.emit('chat message', result.message);
                 }
@@ -61,12 +90,12 @@ io.on('connection', function(socket){
             }
         });
       socket.on('users', function(){
-                var socketsConnected = socketConnections();
-                io.emit('connections', socketsConnected.length);
+                var socketsConnected = socketConnections(socket.handshake.query.room);
+                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
                 });
       socket.on('disconnect', function(){
-                var socketsConnected = socketConnections();
-                io.emit('connections', socketsConnected.length);
+                var socketsConnected = socketConnections(socket.handshake.query.room);
+                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
                 });
       }else{
       socket.emit('chat message', 'PM: Sorry, we cannot allow more than 1024 connections in the server');

@@ -1,0 +1,17 @@
+[{
+  "name" : "Teenage Programmers Chatroom",
+  "number" : 22091,
+  "roomId" : "MT22091"
+}, {
+  "name" : "Montreus Internal Network",
+  "number" : 250,
+  "roomId" : "MT250"
+}, {
+  "name" : "Sandbox",
+  "number" : 900,
+  "roomId" : "MT900"
+}, {
+  "name" : "Home",
+  "number" : 101010,
+  "roomId" : "MT101010"
+}]
