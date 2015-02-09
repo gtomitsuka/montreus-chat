@@ -9,6 +9,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
 var ejs = require('ejs');
+var fs = require("fs");
 var markdown = require('markdown-it')({
     html: false,
     xhtmlOut: true,
