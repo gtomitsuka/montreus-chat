@@ -119,12 +119,12 @@
                 });
                 /* This part is needed to make a responsive siebar: */
                 var origElement = $('#sidebar').clone();
-                $('#sidebar').mmenu();
-                if($( document ).width() > 850){
-                  $('#replaceHolder').html(origElement);
+                    $('#sidebar').mmenu();
+                if($( document ).width() >= 850){
+                    $('#replaceHolder').html(origElement);
                 }
-                $(window).resize(function() {
-                    if($(document).width() < 850){
+                $( window ).resize(function() {
+                    if($( document ).width() < 850){
                         $('#replaceHolder').html('');
                     }else{
                        $('#replaceHolder').html(origElement);
