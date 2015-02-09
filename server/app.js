@@ -60,6 +60,8 @@ roomRouter.get('/room/:id/', function(req, res){
         res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId}));
     }
 });
+app.use(roomRouter);
+
 //Public Folder
 var pagesRouter = express.Router();
 pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
