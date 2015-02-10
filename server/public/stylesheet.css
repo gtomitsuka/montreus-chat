@@ -34,7 +34,6 @@ body {
     font: 16px "Helvetica Neue", Helvetica, Arial;
     max-height: 100%;
     overflow:visible;
-    padding-bottom: 70px;
     background-color: #f6f6f6;
 }
 p{
@@ -74,7 +73,10 @@ form button {
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 20%;
-    padding: 0;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 70px;
 }
 #messages li {
     padding: 5px 10px;
@@ -177,6 +179,10 @@ a.button, a.button:link, a.button:visited{
     margin-right: 0%;
     width: 100%;
     background-color: #f6f6f6;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 70px;
 }
 #messages li{
     color: #060606;
@@ -268,7 +274,10 @@ h1 span{
         margin-top: 0;
         margin-bottom: 0;
         margin-right: 20%;
-        padding: 0;
+        padding-top: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 70px;
     }
     #messages li {
         padding: 5px 10px;
