@@ -119,16 +119,17 @@
                     }
                 });
                 /* This part is needed to make a responsive siebar: */
-                var origElement = $('#sidebar').clone();
-                    $('#sidebar').mmenu();
+                sidebarHTML = $('#sidebar').eq(0).clone().wrapAll('<div>').parent().html();
+                $('#sidebar').mmenu();
                 if($( document ).width() >= 850){
-                    $('#replaceHolder').html(origElement);
+                    $('#replaceHolder').html(sidebarHTML);
                 }
                 $( window ).resize(function() {
+                    $("#sidebar").trigger("close.mm");
                     if($( document ).width() < 850){
                         $('#replaceHolder').html('');
                     }else{
-                       $('#replaceHolder').html(origElement);
+                       $('#replaceHolder').html(sidebarHTML);
                     }
                 });
                 $('#message-send-button').click(function(){$('form').submit();});
