@@ -54,7 +54,7 @@ roomRouter.get('/room/:id/', function(req, res){
         }
     }
     if(roomName == null){
-        res.status(404).send("Oh oh! This room sadly doesn't exist.");
+        res.status(404).send("Uh oh! This room sadly doesn't exist.");
     }else{
         res.set('Content-Type', 'text/html');
         res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId}));
@@ -143,7 +143,7 @@ var processMessage = function(message){
         }
     }
     }else{
-        response.message = generateMessage("Oh oh! Sorry, you cannot send messages longer than 8192 characters.", time, false, "PM");
+        response.message = generateMessage("Uh oh! Sorry, you cannot send messages longer than 8192 characters.", time, false, "PM");
         response.sendToAll = false;
     }
     return response;
