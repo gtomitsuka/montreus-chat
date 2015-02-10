@@ -54,7 +54,7 @@ roomRouter.get('/room/:id/', function(req, res){
         }
     }
     if(roomName == null){
-        res.status(404).send("Oh oh! This room sadly doesn't exist.");
+        res.status(404).send("Uh oh! This room sadly doesn't exist.");
     }else{
         res.set('Content-Type', 'text/html');
         res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId}));
@@ -77,7 +77,7 @@ io.on('connection', function(socket){
                 socket.username = username;
                 });
         var socketsConnected = socketConnections(socket.handshake.query.room);
-        io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
+        io.in(socket.handshake.query.room).emit('connections', socketsConnected.length + 1);
         socket.on('chat message', function(msg){
             if(!verifyEmptyness(msg.message)){
                 var result = processMessage(msg);
@@ -93,11 +93,11 @@ io.on('connection', function(socket){
         });
       socket.on('users', function(){
                 var socketsConnected = socketConnections(socket.handshake.query.room);
-                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
+                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length + 1);
                 });
       socket.on('disconnect', function(){
                 var socketsConnected = socketConnections(socket.handshake.query.room);
-                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length);
+                io.in(socket.handshake.query.room).emit('connections', socketsConnected.length + 1);
                 });
       }else{
       socket.emit('chat message', 'PM: Sorry, we cannot allow more than 1024 connections in the server');
@@ -143,7 +143,7 @@ var processMessage = function(message){
         }
     }
     }else{
-        response.message = generateMessage("Oh oh! Sorry, you cannot send messages longer than 8192 characters.", time, false, "PM");
+        response.message = generateMessage("Uh oh! Sorry, you cannot send messages longer than 8192 characters.", time, false, "PM");
         response.sendToAll = false;
     }
     return response;
