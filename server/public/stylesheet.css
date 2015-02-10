@@ -3,6 +3,33 @@
     padding: 0;
     box-sizing: border-box;
 }
+#no-js div{
+    background-color: #1e89cf;
+    color: #F6F6F6;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+#no-js h1{
+    text-align: center;
+    font-size: 2.4em;
+    text-shadow: 2px 1px 4px #a6a6a6;
+    margin-bottom: 0.15em;
+    margin-top: 0.1em;
+}
+#no-js p{
+    font-size: 2.5em;
+}
+#content{
+    display:none;
+}
+.js #content{
+    display: block;
+}
+.js #no-js{
+    display: none;
+}
 body {
     font: 16px "Helvetica Neue", Helvetica, Arial;
     max-height: 100%;
@@ -188,6 +215,7 @@ form{
 }
 h1 span{
     padding-left: 1.4em;
+    display: block;
 }
 @media (min-width: 850px){
     .border-menu{
