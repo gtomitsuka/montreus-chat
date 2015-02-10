@@ -233,6 +233,7 @@ h1 span{
         font: 16px "Helvetica Neue", Helvetica, Arial;
         max-height: 100%;
         overflow:visible;
+        padding-bottom: 70px;
     }
     form {
         background: #dbdbdb;
