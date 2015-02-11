@@ -27,7 +27,26 @@ var MessageSchema = new Schema({
 var Message = mongoose.model('Message', UserSchema);
 //
 var findMessages = function(room) {
-    Message.find({room: room}).sort({date: -1}).exec(function(err, docs) {
-     
+    return new Promise(function (resolve, decline){
+        Message.find({room: room}).sort({date: -1}).exec(function(error, messages) {
+            if(error != null){
+                resolve(messages);
+            }else{
+                decline(error);
+            }
+        });
+    });
+}
+
+var addNewMessage = function(message, room){
+    var newMessage = new Message({
+            message: message,
+            room: room,
+            sent: new Date()
+    });
+    currentUser.save(function(error){
+        if(error){
+            console.error(error);
+        }
     });
 }
