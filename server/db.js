@@ -27,5 +27,7 @@ var MessageSchema = new Schema({
 var Message = mongoose.model('Message', UserSchema);
 //
 var findMessages = function(room) {
-    Message.find({}).sort({date: -1}).exec(function(err, docs) {});
+    Message.find({room: room}).sort({date: -1}).exec(function(err, docs) {
+     
+    });
 }
