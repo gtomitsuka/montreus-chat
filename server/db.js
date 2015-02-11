@@ -50,3 +50,7 @@ var addNewMessage = function(message, room){
         }
     });
 }
+
+//Exporting methods
+exports.find = findMessages;
+exports.add = addNewMessage;
