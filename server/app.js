@@ -54,7 +54,7 @@ roomRouter.get('/room/:id/', function(req, res){
         }
     }
     if(roomName == null){
-        res.status(404).send("Uh oh! This room sadly doesn't exist.");
+        res.status(404).sendFile(__dirname + '/error.html');
     }else{
         res.set('Content-Type', 'text/html');
         res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId}));

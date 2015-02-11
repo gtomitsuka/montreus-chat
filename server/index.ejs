@@ -118,17 +118,18 @@
                         $(".connectionLabel").html(userList);
                     }
                 });
-                /* This part is needed to make a responsive siebar: */
-                var origElement = $('#sidebar').clone();
-                    $('#sidebar').mmenu();
+                /* This part is needed to make a responsive sidebar: */
+                sidebarHTML = $('#sidebar').eq(0).clone().wrapAll('<div>').parent().html();
+                $('#sidebar').mmenu();
                 if($( document ).width() >= 850){
-                    $('#replaceHolder').html(origElement);
+                    $('#replaceHolder').html(sidebarHTML);
                 }
                 $( window ).resize(function() {
+                    $("#sidebar").trigger("close.mm");
                     if($( document ).width() < 850){
                         $('#replaceHolder').html('');
                     }else{
-                       $('#replaceHolder').html(origElement);
+                       $('#replaceHolder').html(sidebarHTML);
                     }
                 });
                 $('#message-send-button').click(function(){$('form').submit();});
@@ -153,9 +154,9 @@
         </script>
     </div>
     <div id="no-js">
-        <h1>Montreus-Chat</h1>
+        <h1>Montreus Chat</h1>
         <div>
-        <p>Sorry, this Chat only works with JavaScript.<br>If you want to join the Chat enable JavaScript in your Browser.</p>
+        <p>Sorry, Montreus Chat only works with JavaScript enabled.<br>If you want to join the chat, please enable JavaScript in your browser.</p>
         </div>
     </div>
 </body>
