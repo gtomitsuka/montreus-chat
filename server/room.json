@@ -1,17 +1,37 @@
 [{
   "name" : "Teenage Programmers Chatroom",
   "number" : 22091,
-  "roomId" : "MT22091"
+  "roomId" : "MT22091",
+  "password" : null,
+  "public" : true
 }, {
   "name" : "Montreus Internal Network",
   "number" : 250,
-  "roomId" : "MT250"
+  "roomId" : "MT250",
+  "password" : "0",
+  "public": false
 }, {
   "name" : "Sandbox",
   "number" : 900,
-  "roomId" : "MT900"
+  "roomId" : "MT900",
+  "password" : null,
+  "public" : true
 }, {
   "name" : "Home",
   "number" : 101010,
-  "roomId" : "MT101010"
+  "roomId" : "MT101010",
+  "password" : null,
+  "public" : true
+},  {
+  "name" : "JOS",
+  "number" : 705,
+  "roomId" : "MT705",
+  "password" : null,
+  "public" : true
+},  {
+  "name" : "Mawersoft",
+  "number" : 5000,
+  "roomId" : "MT5000",
+  "password" : null,
+  "public" : true
 }]
