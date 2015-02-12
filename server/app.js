@@ -88,6 +88,7 @@ io.on('connection', function(socket){
                 var result = processMessage(msg);
                 if(result.sendToAll === true){
                     io.in(socket.handshake.query.room).emit('chat message', result.message);
+                    db.add(result, socket.handshake.query.room);
                 }else{
                     socket.emit('chat message', result.message);
                 }
