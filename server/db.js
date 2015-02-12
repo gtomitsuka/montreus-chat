@@ -32,7 +32,7 @@ var findMessages = function(room) {
             if(error != null){
                 resolve(messages);
             }else{
-                console.error(error);
+                console.error(error.message);
                 decline(error);
             }
         });
