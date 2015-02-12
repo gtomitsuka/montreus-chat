@@ -171,7 +171,7 @@ var generateMessage = function(message, time, processMarkdown, username){
     return htmlMsg;
 }
 var firstWord = function(string){
-    return string.substr(0, markedMessage.indexOf(" "));
+    return string.substr(0, string.indexOf(" "));
 }
 var otherWords = function(string){
     return string.indexOf(" ") + 1;
