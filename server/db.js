@@ -24,7 +24,7 @@ var MessageSchema = new Schema({
     room: String,
     sent: Date
 });
-var Message = mongoose.model('Message', UserSchema);
+var Message = mongoose.model('Message', MessageSchema);
 //
 var findMessages = function(room) {
     return new Promise(function (resolve, decline){
