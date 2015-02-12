@@ -111,7 +111,15 @@
                     }
                 });
                 socket.on('chat message', function(msg){
+                    console.log(scrolled_val+ ' = scroll value');
+                    var isBottom = false;
+                    if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                        isBottom = true;
+                    }
                     $('#messages').append('<li style="display: table; width: 100%;">' + msg + '</li>');
+                    if(isBottom){
+                         $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+                    }
                 });
                 socket.on('connections', function(userList){
                     if(userList === 1){
