@@ -61,7 +61,7 @@ roomRouter.get('/room/:id/', function(req, res){
             res.set('Content-Type', 'text/html');
         res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId, messages: messages}));
         }, function(error){
-            res.status(500).send("Uh oh! An error ocurred: " + error);
+            res.status(500).send("Uh oh! An error ocurred: " + error.message);
         });
     }
 });
