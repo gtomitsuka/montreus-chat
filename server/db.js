@@ -39,15 +39,20 @@ var findMessages = function(room) {
 }
 
 var addNewMessage = function(message, room){
-    var newMessage = new Message({
+    return new Promise(function (resolve, decline){
+        var newMessage = new Message({
             message: message,
             room: room,
             sent: new Date()
-    });
-    currentUser.save(function(error){
-        if(error){
-            console.error(error);
-        }
+        });
+        newMessage.save(function(error){
+            if(!error){
+                resolve();
+            }else{
+                console.error(error);
+                decline(error);
+            }
+        });
     });
 }
 
