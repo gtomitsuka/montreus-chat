@@ -24,6 +24,7 @@ var markdown = require('markdown-it')({
 //Globals
 var day = 86400000;
 var rooms = require("./room"); //JSON with Rooms
+var db = require("./db");
 
 //Init EJS
 var indexEJS;
@@ -56,8 +57,12 @@ roomRouter.get('/room/:id/', function(req, res){
     if(roomName == null){
         res.status(404).sendFile(__dirname + '/error.html');
     }else{
-        res.set('Content-Type', 'text/html');
-        res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId}));
+        db.find(roomId).then(function(messages){
+            res.set('Content-Type', 'text/html');
+        res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId, messages: messages}));
+        }, function(error){
+            res.status(500).send("Uh oh! An error ocurred: " + error.message);
+        });
     }
 });
 app.use(roomRouter);
@@ -83,6 +88,7 @@ io.on('connection', function(socket){
                 var result = processMessage(msg);
                 if(result.sendToAll === true){
                     io.in(socket.handshake.query.room).emit('chat message', result.message);
+                    db.add(result.message, socket.handshake.query.room);
                 }else{
                     socket.emit('chat message', result.message);
                 }
@@ -165,7 +171,7 @@ var generateMessage = function(message, time, processMarkdown, username){
     return htmlMsg;
 }
 var firstWord = function(string){
-    return string.substr(0, markedMessage.indexOf(" "));
+    return string.substr(0, string.indexOf(" "));
 }
 var otherWords = function(string){
     return string.indexOf(" ") + 1;

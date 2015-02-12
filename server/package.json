@@ -8,7 +8,8 @@
     "markdown-it": "^3.0.4",
     "moment": "^2.9.0",
     "socket.io": "^1.3.2",
-    "ejs" : "^2.2.4"
+    "ejs" : "^2.2.4",
+    "mongoose" : "^3.8.23"
   },
   "devDependencies": {},
   "scripts": {
