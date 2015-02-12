@@ -16,3 +16,5 @@ These are the available Montreus Chat commands as of v1.5.x:
     /bot-say <message>
     /broadcast <message>
     /me
+
+Note: For using database enabled features, you'll have to insert your own MongoDB on `server/db.js`.
