@@ -21,7 +21,11 @@
             </h1>
         </header>
         <div id="main">
-            <ul id="messages"></ul>
+            <ul id="messages">
+            <% for(var i=0; i<messages.length; i++) {%>
+            <li style="display: table; width: 100%;"><%= messages[i] %></li>
+            <% } %>
+            </ul>
             <form action="">
             <!-- Using Foundation classes to show a styled textfield and send button -->
                 <div class="large-12">
@@ -107,7 +111,7 @@
                     }
                 });
                 socket.on('chat message', function(msg){
-                    $('#messages').append('<li style="display: table; width: 100%;">' + msg);
+                    $('#messages').append('<li style="display: table; width: 100%;">' + msg + '</li>');
                 });
                 socket.on('connections', function(userList){
                     if(userList === 1){
