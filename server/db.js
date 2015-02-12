@@ -28,7 +28,7 @@ var Message = mongoose.model('Message', MessageSchema);
 //
 var findMessages = function(room) {
     return new Promise(function (resolve, decline){
-        Message.find({room: room}).sort({date: -1}).exec(function(error, messages) {
+        Message.find({room: room}).sort({sent: -1}).exec(function(error, messages) {
             if(!error){
                 resolve(messages);
             }else{
