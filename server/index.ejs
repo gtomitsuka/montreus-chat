@@ -82,6 +82,7 @@
             var currentUser;
             $(function(){
                 $('body').addClass('js');
+                $("html, body").scrollTop($(document).height());
                 var nameMessageHTMLPatternBegin = "Welcome, ";
                 var username = localStorage.getItem('MTChat_Username');
                 if(username === null){
