@@ -10,7 +10,6 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 var ejs = require('ejs');
 var fs = require("fs");
-var notifier = require('node-notifier');
 var markdown = require('markdown-it')({
     html: false,
     xhtmlOut: true,
@@ -21,12 +20,6 @@ var markdown = require('markdown-it')({
     quotes: '“”‘’',
     highlight: function() {return '';}
 });
-var bodyParser = require('body-parser')
-// create application/json parser
-var jsonParser = bodyParser.json()
-
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 //Globals
 var day = 86400000;
@@ -47,18 +40,6 @@ fs.readFile('./index.ejs', 'utf8', function (error, data) {
 //Connection Handlers
 app.get('/', function(req, res){
     res.status(200).sendFile(__dirname + '/index.html');
-});
-app.post('/notification',urlencodedParser, function(req, res){
-    if (!req.body) return res.sendStatus(400);
-    var name = req.body.name;
-    var message = req.body.message;
-    notifier
-        .notify({
-            title: 'Message from ' + name,
-            message: message,
-            wait: false
-        });
-    res.end();
 });
 //Uses EJS
 var roomRouter = express.Router();
