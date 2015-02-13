@@ -137,32 +137,32 @@ var processMessage = function(message){
     var response;
     if(message.message.length <= 8192){
     if(message.message.slice(0,1) !== "/"){
-        response = createResponse(message.username, message.message,time, true,true);
+        response = createResponse(message.username, message.message,time, ': ', true,true, true);
     }else{
         var command = firstWord(message.message);
-        switch(command){
+        switch(command.toLowerCase()){ // As example /HELP, /helP, /HeLp
             case "/help":
-                response = createResponse('',"Montreus Chat - v1.4<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message</p>", time, false,false);
+                response = createResponse('',"Montreus Chat - v1.4<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message</p>", time, '', false,false, false);
        
             break;
             case "/bot-say":
-                response = createResponse('Chat bot',otherWords(message.message), time, true, true);
+                response = createResponse('Chat bot',otherWords(message.message), time, ': ', true, true, true);
             break;
             case "/broadcast":
-                response = createResponse('BROADCAST',otherWords(message.message), time, true, true);
+                response = createResponse('BROADCAST',otherWords(message.message), time, ': ', true, true, true);
             break;
             case "/me":
-                response = createResponse(message.username, 'Montreus Chat - v1.4<br>Username: ', time, false, false);
+                response = createResponse('', 'Montreus Chat - v1.4<br>Username: ' + message.username, time, '', false, false, true);
             break;
             case "/version":
-                response = createResponse('', 'Montreus Chat - v1.4', time, false, false);
+                response = createResponse('', 'Montreus Chat - v1.4', time, '', false, false, false);
             break;
             default:
-                response = createResponse('', 'Invalid command', time, false, false);
+                response = createResponse('', 'Invalid command', time, '', false, false, false);
         }
     }
     }else{
-        response = createResponse('PM', 'Uh oh! Sorry, you cannot send messages longer than 8192 characters.', time, false, false);
+        response = createResponse('PM', 'Uh oh! Sorry, you cannot send messages longer than 8192 characters.', time, false, false, false);
     }
     return response;
 }
@@ -183,15 +183,16 @@ var generateMessage = function(message, time, processMarkdown, username){
     return htmlMsg;
 }
 
-var createResponse = function(username, message, time, processMarkdown, sendToAll){
+var createResponse = function(username, message, time, usernameMessageSperator, processMarkdown, sendToAll, notify){
   
     var response = {
         username : html.escape(username),
         message : message,
         processMarkdown : processMarkdown,
         time : time,
-        usernameMessageSperator : ': ',
-        sendToAll : sendToAll
+        usernameMessageSperator : usernameMessageSperator,
+        sendToAll : sendToAll,
+        notify: notify
     };
     if(processMarkdown === true){
         msg = markdown.renderInline(message);
@@ -200,10 +201,16 @@ var createResponse = function(username, message, time, processMarkdown, sendToAl
     return(response);
 };
 var firstWord = function(string){
+    if(string.indexOf(" ") == -1){
+        return string;
+    }
     return string.substr(0, string.indexOf(" "));
 }
 var otherWords = function(string){
-    return string.indexOf(" ") + 1;
+      if(string.indexOf(" ") == -1){
+        return '';
+    }
+    return string.substr(string.indexOf(" ") + 1,string.length);
 }
 http.listen(3030, function(){
             console.log('listening on *:3030');
