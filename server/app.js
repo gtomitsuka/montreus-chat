@@ -113,7 +113,7 @@ io.on('connection', function(socket){
                 }
             }else{
                 var time = moment(msg.date).format("LT, D/M");
-                socket.emit('chat message', generateMessage("You may not send empty messages", time, false));
+                socket.emit('chat message', createResponse('','You may not send empty messages',time, '', true,false, false));
             }
         });
       socket.on('users', function(){
@@ -125,8 +125,8 @@ io.on('connection', function(socket){
                 io.in(socket.handshake.query.room).emit('connections', socketsConnected.length + 1);
                 });
       }else{
-      socket.emit('chat message', 'PM: Sorry, we cannot allow more than 1024 connections in the server');
-      socket.emit('chat message', 'PM: Disconnecting! Try again later.');
+      socket.emit('chat message', createResponse('PM','Sorry, we cannot allow more than 1024 connections in the server',time, ': ', true,false, false));
+      socket.emit('chat message',  createResponse('PM','Disconnecting! Try again later.',time, ': ', true,false, false));
       socket.emit('connections', 'You are not connected.');
       socket.disconnect();
       }
@@ -162,25 +162,9 @@ var processMessage = function(message){
         }
     }
     }else{
-        response = createResponse('PM', 'Uh oh! Sorry, you cannot send messages longer than 8192 characters.', time, false, false, false);
+        response = createResponse('PM', 'Uh oh! Sorry, you cannot send messages longer than 8192 characters.', time, '', false, false, false);
     }
     return response;
-}
-var generateMessage = function(message, time, processMarkdown, username){
-    var msg;
-    var htmlMsg;
-    var date = moment(message.date).format("LT, D/M");
-    if(processMarkdown === true){
-        msg = markdown.renderInline(message);
-    } else{
-        msg = message;
-    }
-    if(username != undefined){
-        htmlMsg = '<p class="alignLeft">' + html.escape(username) + ': ' + msg + '</p><p class="alignRight">' + date + '</p>';
-    }else{
-        htmlMsg = '<p class="alignLeft">' + msg + '</p><p class="alignRight">' + date + '</p>';
-    }
-    return htmlMsg;
 }
 
 var createResponse = function(username, message, time, usernameMessageSperator, processMarkdown, sendToAll, notify){
