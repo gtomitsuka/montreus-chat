@@ -23,7 +23,7 @@
         <div id="main">
             <ul id="messages">
             <% for(var i=0; i<messages.length; i++) {%>
-            <li style="display: table; width: 100%;"><%- messages[i].message %></li>
+            <li style="display: table; width: 100%;"><p class="alignLeft"><%= messages[i].result.username %><%= messages[i].result.usernameMessageSperator %><%= messages[i].result.message %></p><p class="alignRight"><%= messages[i].result.time %></p></li>
             <% } %>
             </ul>
             <form action="">
@@ -110,15 +110,18 @@
                         return false;
                     }
                 });
-                socket.on('chat message', function(msg){
-                    console.log(scrolled_val+ ' = scroll value');
+                socket.on('chat message', function(result){
                     var isBottom = false;
                     if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
                         isBottom = true;
                     }
-                    $('#messages').append('<li style="display: table; width: 100%;">' + msg + '</li>');
+                    $('#messages').append('<li style="display: table; width: 100%;">' + '<p class="alignLeft">' + result.username + result.usernameMessageSperator + result.message + '</p><p class="alignRight">' + result.time + '</p></li>');
                     if(isBottom){
                          $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+                    }
+                    if(currentUser !== result.username){
+                        $.post( "/notification", {name: result.username, message: result.message}, function( data ) {
+                        });
                     }
                 });
                 socket.on('connections', function(userList){

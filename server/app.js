@@ -10,6 +10,7 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 var ejs = require('ejs');
 var fs = require("fs");
+var notifier = require('node-notifier');
 var markdown = require('markdown-it')({
     html: false,
     xhtmlOut: true,
@@ -20,6 +21,12 @@ var markdown = require('markdown-it')({
     quotes: '“”‘’',
     highlight: function() {return '';}
 });
+var bodyParser = require('body-parser')
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 //Globals
 var day = 86400000;
@@ -40,6 +47,18 @@ fs.readFile('./index.ejs', 'utf8', function (error, data) {
 //Connection Handlers
 app.get('/', function(req, res){
     res.status(200).sendFile(__dirname + '/index.html');
+});
+app.post('/notification',urlencodedParser, function(req, res){
+    if (!req.body) return res.sendStatus(400);
+    var name = req.body.name;
+    var message = req.body.message;
+    notifier
+        .notify({
+            title: 'Message from ' + name,
+            message: message,
+            wait: false
+        });
+    res.end();
 });
 //Uses EJS
 var roomRouter = express.Router();
@@ -87,10 +106,10 @@ io.on('connection', function(socket){
             if(!verifyEmptyness(msg.message)){
                 var result = processMessage(msg);
                 if(result.sendToAll === true){
-                    io.in(socket.handshake.query.room).emit('chat message', result.message);
-                    db.add(result.message, socket.handshake.query.room);
+                    io.in(socket.handshake.query.room).emit('chat message', result);
+                    db.add(result, socket.handshake.query.room);
                 }else{
-                    socket.emit('chat message', result.message);
+                    socket.emit('chat message', result);
                 }
             }else{
                 var time = moment(msg.date).format("LT, D/M");
@@ -114,43 +133,36 @@ io.on('connection', function(socket){
 });
 
 var processMessage = function(message){
-    var response = {};
     var time = moment(message.date).format("LT, D/M");
+    var response;
     if(message.message.length <= 8192){
     if(message.message.slice(0,1) !== "/"){
-        response.message = generateMessage(message.message, time, true, message.username);
-        response.sendToAll = true;
+        response = createResponse(message.username, message.message,time, true,true);
     }else{
         var command = firstWord(message.message);
         switch(command){
             case "/help":
-                response.message = generateMessage("Montreus Chat - v1.4<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message</p>", time, false);
-                response.sendToAll = false;
+                response = createResponse('',"Montreus Chat - v1.4<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message</p>", time, false,false);
+       
             break;
             case "/bot-say":
-                response.message = generateMessage(otherWords(message.message), time, true, "Chat bot");
-                response.sendToAll = true;
+                response = createResponse('Chat bot',otherWords(message.message), time, true, true);
             break;
             case "/broadcast":
-                response.message = generateMessage(otherWords(message.message), time, true, "BROADCAST");
-                response.sendToAll = true;
+                response = createResponse('BROADCAST',otherWords(message.message), time, true, true);
             break;
             case "/me":
-                response.message = generateMessage("Montreus Chat - v1.4<br>Username: " + message.username, time, false);
-                response.sendToAll = false;
+                response = createResponse(message.username, 'Montreus Chat - v1.4<br>Username: ', time, false, false);
             break;
             case "/version":
-                response.message = generateMessage("Montreus Chat - v1.4", time, false);
-                response.sendToAll = false;
+                response = createResponse('', 'Montreus Chat - v1.4', time, false, false);
             break;
             default:
-                response.message = generateMessage("Invalid command", time, false);
-                response.sendToAll = false;
+                response = createResponse('', 'Invalid command', time, false, false);
         }
     }
     }else{
-        response.message = generateMessage("Uh oh! Sorry, you cannot send messages longer than 8192 characters.", time, false, "PM");
-        response.sendToAll = false;
+        response = createResponse('PM', 'Uh oh! Sorry, you cannot send messages longer than 8192 characters.', time, false, false);
     }
     return response;
 }
@@ -170,6 +182,23 @@ var generateMessage = function(message, time, processMarkdown, username){
     }
     return htmlMsg;
 }
+
+var createResponse = function(username, message, time, processMarkdown, sendToAll){
+  
+    var response = {
+        username : html.escape(username),
+        message : message,
+        processMarkdown : processMarkdown,
+        time : time,
+        usernameMessageSperator : ': ',
+        sendToAll : sendToAll
+    };
+    if(processMarkdown === true){
+        msg = markdown.renderInline(message);
+        response.message = msg;
+    }
+    return(response);
+};
 var firstWord = function(string){
     return string.substr(0, string.indexOf(" "));
 }
