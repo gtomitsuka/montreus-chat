@@ -20,15 +20,14 @@ mongoose.connect('mongodb://localhost/chat-db', function (error) {
 
 //MongoDB Globals
 var MessageSchema = new Schema({
-    message: String,
-    room: String,
-    sent: Date
+    result :  {},
+    room : String
 });
 var Message = mongoose.model('Message', MessageSchema);
 //
 var findMessages = function(room) {
     return new Promise(function (resolve, decline){
-        Message.find({room: room}).sort({sent: 'ascending'}).exec(function(error, messages) {
+        Message.find({room: room}).sort({sent: 'ascending'}).limit(30).exec(function(error, messages) {
             if(!error){
                 resolve(messages);
             }else{
@@ -39,12 +38,11 @@ var findMessages = function(room) {
     });
 }
 
-var addNewMessage = function(message, room){
+var addNewMessage = function(result, room){
     return new Promise(function (resolve, decline){
         var newMessage = new Message({
-            message: message,
-            room: room,
-            sent: new Date()
+            result: result,
+            room: room
         });
         newMessage.save(function(error){
             if(!error){
