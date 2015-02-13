@@ -20,8 +20,9 @@ mongoose.connect('mongodb://localhost/chat-db', function (error) {
 
 //MongoDB Globals
 var MessageSchema = new Schema({
-    result :  {},
-    room : String
+    result:  {},
+    room: String,
+    sent: Date
 });
 var Message = mongoose.model('Message', MessageSchema);
 //
@@ -42,7 +43,8 @@ var addNewMessage = function(result, room){
     return new Promise(function (resolve, decline){
         var newMessage = new Message({
             result: result,
-            room: room
+            room: room,
+            sent: new Date()
         });
         newMessage.save(function(error){
             if(!error){
