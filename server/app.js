@@ -127,10 +127,20 @@ var processMessage = function(message){
        
             break;
             case "/bot-say":
-                response = createResponse('Chat bot',otherWords(message.message), time, ': ', true, true, true);
+                var msg = otherWords(message.message);
+                if(msg.length <= 0){
+                    response = createResponse('PM','Uh oh! You forgot the message: /Bot-say message', time, ': ', true, false, true);
+                }else{
+                    response = createResponse('Chat bot',msg, time, ': ', true, true, true);
+                }
             break;
             case "/broadcast":
-                response = createResponse('BROADCAST',otherWords(message.message), time, ': ', true, true, true);
+                var msg = otherWords(message.message);
+                if(msg.length <= 0){
+                    response = createResponse('PM','Uh oh! You forgot the message: /Broadcast message', time, ': ', true, false, true);
+                }else{
+                    response = createResponse('BROADCAST',msg, time, ': ', true, true, true);
+                }
             break;
             case "/me":
                 response = createResponse('', 'Montreus Chat - v1.4<br>Username: ' + message.username, time, '', false, false, true);
