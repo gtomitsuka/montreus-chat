@@ -120,11 +120,6 @@
                     if(isBottom){
                          $("html, body").animate({ scrollTop: $(document).height() }, 1000);
                     }
-                    if(result.notify){
-                        if(currentUser !== result.username){
-                            $.post( "/notification", {name: result.username, message: result.message}, function( data ) {
-                            });
-                        }
                     }
                 });
                 socket.on('connections', function(userList){
