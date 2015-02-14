@@ -29,32 +29,29 @@ var db = require("./db");
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 //Init EJS
-var indexEJS;
-fs.readFile('./index.ejs', 'utf8', function (error, data) {
-  if(error){
+var roomEJS;
+fs.readFile('./room.ejs', 'utf8', function (error, data) {
+  if(error)
     console.log(error)
-  }else{
-  indexEJS = data;
-  }
+  else
+    roomEJS = data;
 });
 
 var loginEJS;
 fs.readFile('./login.ejs', 'utf8', function (error, data) {
-  if(error){
+  if(error)
     console.error(error);
-  }else{
-  loginEJS = data;
-  }
+  else
+    loginEJS = data;
 });
 
 
 var errorEJS;
 fs.readFile('./error.ejs', 'utf8', function (error, data) {
-  if(error){
+  if(error)
     console.error(error);
-  }else{
-  errorEJS = data;
-  }
+  else
+    errorEJS = data;
 });
 
 //Connection Handlers
@@ -85,7 +82,7 @@ roomRouter.post('/room/:id/', urlencodedParser, function(req, res,next){
         if(roomPassword + '' == postPassword){
             db.find(roomId).then(function(messages){
                 res.set('Content-Type', 'text/html');
-                res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
+                res.status(200).send(ejs.render(roomEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
             }, function(error){
                 res.status(500).send("Uh oh! An error ocurred: " + error.message);
             });
