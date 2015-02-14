@@ -10,7 +10,8 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 var ejs = require('ejs');
 var fs = require("fs");
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var compression = require('compression');
 var markdown = require('markdown-it')({
     html: false,
     xhtmlOut: true,
@@ -26,7 +27,7 @@ var markdown = require('markdown-it')({
 var day = 86400000;
 var rooms = require("./room"); //JSON with Rooms
 var db = require("./db");
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Init EJS
 var roomEJS;
@@ -134,12 +135,13 @@ roomRouter.get('/room/:id/', function(req, res,next){
       
     }
 });
-
+roomRouter.use(compression({ threshold: 512 }));
 app.use(roomRouter);
 
 //Public Folder
 var pagesRouter = express.Router();
 pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
+pagesRouter.use(compression({ threshold: 512 }));
 app.use('/', pagesRouter);
 
 
