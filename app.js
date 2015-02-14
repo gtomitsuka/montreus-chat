@@ -234,7 +234,7 @@ var createResponse = function(username, message, time, usernameMessageSperator, 
   
     var response = {
         username : html.escape(username),
-        message : message,
+        message : html.escape(message),
         processMarkdown : processMarkdown,
         time : time,
         usernameMessageSperator : usernameMessageSperator,
