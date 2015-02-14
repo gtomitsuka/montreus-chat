@@ -62,23 +62,31 @@ app.get('/', function(req, res){
 var roomRouter = express.Router();
 roomRouter.post('/room/:id/', urlencodedParser, function(req, res,next){
     if (!req.body) return res.sendStatus(400);
-    var id = req.params.id;
+    //Room Parameters
     var roomName;
     var roomId;
     var roomPassword;
+    var isPublic;
+    
+    //Request Parameters
+    var id = req.params.id;
     var postUsername = req.body.username;
     var postPassword = req.body.password;
+    
+    //Search for room with the name
     for(var i = 0; i < rooms.length; i++){
       var room = rooms[i];
         if(room.number == id){
             roomName = room.name;
             roomId = room.roomId;
             roomPassword = room.password;
+            isPublic = room.public;
         }
     }
     if(roomName == null){
         res.status(404).sendFile(__dirname + '/error.html');
     }else{
+        if(!isPublic) {
         if(roomPassword + '' == postPassword){
             db.find(roomId).then(function(messages){
                 res.set('Content-Type', 'text/html');
@@ -88,6 +96,14 @@ roomRouter.post('/room/:id/', urlencodedParser, function(req, res,next){
             });
         }else{
             res.status(400).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: 'Incorrect Password.'}));
+        }
+        }else{
+            db.find(roomId).then(function(messages){
+                res.set('Content-Type', 'text/html');
+                res.status(200).send(ejs.render(roomEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
+            }, function(error){
+                res.status(500).send("Uh oh! An error ocurred: " + error.message);
+            });
         }
     }
 });
