@@ -37,8 +37,6 @@
 	<script type="text/javascript">
 $(function(){
 	var username = localStorage.getItem('MTChat_Username');
-	var passwordField = $('#passwordField');
-	passwordField.attr('value','null');
    	if(username !== null){
         $('#nameField').attr('value',username);
         $('form').submit();
