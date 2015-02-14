@@ -59,7 +59,7 @@ fs.readFile('./error.ejs', 'utf8', function (error, data) {
 
 //Connection Handlers
 app.get('/', function(req, res){
-    res.status(200).sendFile(__dirname + '/index.html');
+    res.status(200).sendFile(__dirname + '/list.ejs');
 });
 //Uses EJS
 var roomRouter = express.Router();
@@ -114,9 +114,9 @@ roomRouter.get('/room/:id/', function(req, res,next){
     }else{
         res.set('Content-Type', 'text/html');
         if(roomPassword != null){
-            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, usePassword: true}));
+            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, isPasswordProtected: true}));
         }else{
-            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, usePassword: false}));
+            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, isPasswordProtected: false}));
         }
       
     }
