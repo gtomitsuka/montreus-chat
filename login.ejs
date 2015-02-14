@@ -38,8 +38,9 @@
 $(function(){
 	var username = localStorage.getItem('MTChat_Username');
    	if(username !== null){
-        $('#nameField').attr('value',username);
-        $('form').submit();
+        	$('#nameField').attr('value',username);
+        	if(<%= isPasswordProtected %> == false)
+        	$('form').submit();
 	}else{
 		if(username !== null)
 			$('#nameField').attr('value', username);
