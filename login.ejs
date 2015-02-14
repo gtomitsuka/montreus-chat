@@ -23,7 +23,7 @@
   			<% if(isPasswordProtected == true) { %>
   			<div class="row">
     			<div class="large-12 columns">
-      				<label>Password:
+      				<label>Room's Password:
         				<input id="passwordField" type='text' name="password" placeholder="Room's password" />
       				</label>
     			</div>
@@ -36,11 +36,15 @@
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<script type="text/javascript">
 $(function(){
+	var roomLocalStorageCode = "MTChat_Password<%= id %>";
 	var username = localStorage.getItem('MTChat_Username');
+	var roomPassword = localStorage.getItem(roomLocalStorageCode);
    	if(username !== null){
-        	$('#nameField').attr('value',username);
-        	if(<%= isPasswordProtected %> == false)
-        	$('form').submit();
+    	$('#nameField').attr('value',username);
+        	if(<%= isPasswordProtected %> == false && roomPassword != null){
+        		$('#passwordField').attr('value', roomPassword);
+        		$('form').submit();
+        	}
 	}else{
 		if(username !== null)
 			$('#nameField').attr('value', username);
