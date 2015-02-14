@@ -10,7 +10,8 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 var ejs = require('ejs');
 var fs = require("fs");
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var compression = require('compression');
 var markdown = require('markdown-it')({
     html: false,
     xhtmlOut: true,
@@ -26,71 +27,84 @@ var markdown = require('markdown-it')({
 var day = 86400000;
 var rooms = require("./room"); //JSON with Rooms
 var db = require("./db");
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Init EJS
-var indexEJS;
-fs.readFile('./index.ejs', 'utf8', function (error, data) {
-  if(error){
+var roomEJS;
+fs.readFile('./room.ejs', 'utf8', function (error, data) {
+  if(error)
     console.log(error)
-  }else{
-  indexEJS = data;
-  }
+  else
+    roomEJS = data;
 });
 
 var loginEJS;
 fs.readFile('./login.ejs', 'utf8', function (error, data) {
-  if(error){
+  if(error)
     console.error(error);
-  }else{
-  loginEJS = data;
-  }
+  else
+    loginEJS = data;
 });
 
 
 var errorEJS;
 fs.readFile('./error.ejs', 'utf8', function (error, data) {
-  if(error){
+  if(error)
     console.error(error);
-  }else{
-  errorEJS = data;
-  }
+  else
+    errorEJS = data;
 });
 
 //Connection Handlers
 app.get('/', function(req, res){
-    res.status(200).sendFile(__dirname + '/index.html');
+    res.status(200).sendFile(__dirname + '/list.ejs');
 });
 //Uses EJS
 var roomRouter = express.Router();
 roomRouter.post('/room/:id/', urlencodedParser, function(req, res,next){
     if (!req.body) return res.sendStatus(400);
-    var id = req.params.id;
+    //Room Parameters
     var roomName;
     var roomId;
     var roomPassword;
+    var isPublic;
+    
+    //Request Parameters
+    var id = req.params.id;
     var postUsername = req.body.username;
     var postPassword = req.body.password;
+    
+    //Search for room with the name
     for(var i = 0; i < rooms.length; i++){
       var room = rooms[i];
         if(room.number == id){
             roomName = room.name;
             roomId = room.roomId;
             roomPassword = room.password;
+            isPublic = room.public;
         }
     }
     if(roomName == null){
         res.status(404).sendFile(__dirname + '/error.html');
     }else{
+        if(!isPublic) {
         if(roomPassword + '' == postPassword){
             db.find(roomId).then(function(messages){
                 res.set('Content-Type', 'text/html');
-                res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
+                res.status(200).send(ejs.render(roomEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
             }, function(error){
                 res.status(500).send("Uh oh! An error ocurred: " + error.message);
             });
         }else{
             res.status(400).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: 'Incorrect Password.'}));
+        }
+        }else{
+            db.find(roomId).then(function(messages){
+                res.set('Content-Type', 'text/html');
+                res.status(200).send(ejs.render(roomEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
+            }, function(error){
+                res.status(500).send("Uh oh! An error ocurred: " + error.message);
+            });
         }
     }
 });
@@ -114,19 +128,20 @@ roomRouter.get('/room/:id/', function(req, res,next){
     }else{
         res.set('Content-Type', 'text/html');
         if(roomPassword != null){
-            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, usePassword: true}));
+            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, isPasswordProtected: true}));
         }else{
-            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, usePassword: false}));
+            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, isPasswordProtected: false}));
         }
       
     }
 });
-
+roomRouter.use(compression({ threshold: 512 }));
 app.use(roomRouter);
 
 //Public Folder
 var pagesRouter = express.Router();
 pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
+pagesRouter.use(compression({ threshold: 512 }));
 app.use('/', pagesRouter);
 
 

@@ -3,13 +3,13 @@
 	<head>
   	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   	<meta charset="utf-8">
-  	<title><%= title %> Login</title>
+  	<title>Enter <%= title %></title>
   	<link rel="stylesheet" type="text/css" href="../../reset.css"> 
   	<link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css"> 
   	<link type="text/css" rel="stylesheet" href="../../login.css" />  
 	</head>
 	<body>
-		<h1>Montreus Chat</h1>
+		<h1>Welcome to <%= title %>!</h1>
 		<form method="post" action="/room/<%= id %>">	
 			<div class="content">
 			<h2>Room: <%= title %></h2>
@@ -20,35 +20,34 @@
       				</label>
     			</div>
   			</div>
+  			<% if(isPasswordProtected == true) { %>
   			<div class="row">
     			<div class="large-12 columns">
-      				<label>Password:
-        				<input id="passwordField" type='text' name="password" placeholder="Room password" />
+      				<label>Room's Password:
+        				<input id="passwordField" type='text' name="password" placeholder="Room's password" />
       				</label>
     			</div>
   			</div>
-		
-			<input class="button radius" value="Login" type="submit">
+			<% } %>
+			<input class="button radius" value="Enter Room" type="submit">
 			</div>
 		</form>
 	</body>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<script type="text/javascript">
 $(function(){
+	var roomLocalStorageCode = "MTChat_Password<%= id %>";
 	var username = localStorage.getItem('MTChat_Username');
-	if(<%= usePassword %> != true){
-		var passwordField = $('#passwordField');
-		passwordField.attr('value','null');
-     	if(username !== null){
-                $('#nameField').attr('value',username);
-                $('form').submit();
-        }else{
-        	passwordField.attr('type','hidden');
-        }
+	var roomPassword = localStorage.getItem(roomLocalStorageCode);
+   	if(username !== null){
+    	$('#nameField').attr('value',username);
+        	if(<%= isPasswordProtected %> == false || roomPassword != null){
+        		$('#passwordField').attr('value', roomPassword);
+        		$('form').submit();
+        	}
 	}else{
-		if(username !== null){
-	 		$('#nameField').attr('value', username);
-	 	}
+		if(username !== null)
+			$('#nameField').attr('value', username);
 	}
 });
 	</script>
