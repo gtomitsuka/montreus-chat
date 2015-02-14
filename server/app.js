@@ -21,6 +21,13 @@ var markdown = require('markdown-it')({
     highlight: function() {return '';}
 });
 
+var bodyParser = require('body-parser')
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 //Globals
 var day = 86400000;
 var rooms = require("./room"); //JSON with Rooms
@@ -36,6 +43,24 @@ fs.readFile('./index.ejs', 'utf8', function (error, data) {
   }
 });
 
+var loginEJS;
+fs.readFile('./login.ejs', 'utf8', function (error, data) {
+  if(error){
+    console.log(error)
+  }else{
+  loginEJS = data;
+  }
+});
+
+
+var errorEJS;
+fs.readFile('./error.ejs', 'utf8', function (error, data) {
+  if(error){
+    console.log(error)
+  }else{
+  errorEJS = data;
+  }
+});
 
 //Connection Handlers
 app.get('/', function(req, res){
@@ -43,28 +68,65 @@ app.get('/', function(req, res){
 });
 //Uses EJS
 var roomRouter = express.Router();
-roomRouter.get('/room/:id/', function(req, res){
+roomRouter.post('/room/:id/',urlencodedParser, function(req, res,next){
+    if (!req.body) return res.sendStatus(400);
     var id = req.params.id;
     var roomName;
     var roomId;
+    var roomPassword;
+    var postUsername = req.body.username;
+    var postPassword = req.body.password;
     for(var i = 0; i < rooms.length; i++){
       var room = rooms[i];
         if(room.number == id){
             roomName = room.name;
             roomId = room.roomId;
+            roomPassword = room.password;
         }
     }
     if(roomName == null){
         res.status(404).sendFile(__dirname + '/error.html');
     }else{
-        db.find(roomId).then(function(messages){
-            res.set('Content-Type', 'text/html');
-        res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId, messages: messages}));
-        }, function(error){
-            res.status(500).send("Uh oh! An error ocurred: " + error.message);
-        });
+        if(roomPassword + '' == postPassword){
+            db.find(roomId).then(function(messages){
+                res.set('Content-Type', 'text/html');
+                res.status(200).send(ejs.render(indexEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
+            }, function(error){
+                res.status(500).send("Uh oh! An error ocurred: " + error.message);
+            });
+        }else{
+            res.status(404).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: 'The required password was false'}));
+        }
     }
 });
+
+
+roomRouter.get('/room/:id/', function(req, res,next){
+    var id = req.params.id;
+    var roomName;
+    var roomId;
+    var roomPassword;
+    for(var i = 0; i < rooms.length; i++){
+      var room = rooms[i];
+        if(room.number == id){
+            roomName = room.name;
+            roomId = room.roomId;
+            roomPassword = room.password;
+        }
+    }
+    if(roomName == null){
+        res.status(404).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: "Anyway the room name doesn't exist"}));
+    }else{
+        res.set('Content-Type', 'text/html');
+        if(roomPassword != null){
+            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, usePassword: true}));
+        }else{
+            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, usePassword: false}));
+        }
+      
+    }
+});
+
 app.use(roomRouter);
 
 //Public Folder
