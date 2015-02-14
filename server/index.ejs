@@ -84,16 +84,11 @@
                 $('body').addClass('js');
                 $("html, body").scrollTop($(document).height());
                 var nameMessageHTMLPatternBegin = "Welcome, ";
-                var username = localStorage.getItem('MTChat_Username');
-                if(username === null){
-                    var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");
-                    if(returnedUsername !== null){
-                        localStorage.setItem('MTChat_Username', returnedUsername);
-                        currentUser = returnedUsername;
-                    }
-                }else{
-                    currentUser = username;
-                }
+                var username = '<%= username %>';
+                   /* var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");*/
+                        localStorage.setItem('MTChat_Username', username);
+                        currentUser = username;
+                
                 $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                 var connectionQuery = "username=" + currentUser + "&room=<%= id %>";
                 var socket = io.connect("" , {query:connectionQuery});
