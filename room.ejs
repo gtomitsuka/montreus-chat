@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
   <title><%= title %></title>
+  <base target="_blank">
   <link rel="stylesheet" type="text/css" href="../../reset.css"> 
   <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css"> 
   <link type="text/css" rel="stylesheet" href="../../jquery.mmenu.all.css" />
@@ -80,10 +81,11 @@
         <script type="text/javascript" src="../../jquery.mmenu.min.all.js"></script>
         <script>
             var currentUser;
+             var nameMessageHTMLPatternBegin = "Welcome, ";
             $(function(){
                 $('body').addClass('js');
                 $("html, body").scrollTop($(document).height());
-                var nameMessageHTMLPatternBegin = "Welcome, ";
+              
                 var username = '<%= username %>';
                    /* var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");*/
                         localStorage.setItem('MTChat_Username', username);
