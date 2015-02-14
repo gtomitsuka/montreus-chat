@@ -41,7 +41,7 @@ $(function(){
 	var roomPassword = localStorage.getItem(roomLocalStorageCode);
    	if(username !== null){
     	$('#nameField').attr('value',username);
-        	if(<%= isPasswordProtected %> || false && roomPassword != null){
+        	if(<%= isPasswordProtected %> == false || roomPassword != null){
         		$('#passwordField').attr('value', roomPassword);
         		$('form').submit();
         	}
