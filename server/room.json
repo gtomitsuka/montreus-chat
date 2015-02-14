@@ -8,7 +8,7 @@
   "name" : "Montreus Internal Network",
   "number" : 250,
   "roomId" : "MT250",
-  "password" : "0",
+  "password" : "password",
   "public": false
 }, {
   "name" : "Sandbox",
@@ -30,8 +30,20 @@
   "public" : true
 },  {
   "name" : "Mawersoft",
-  "number" : 5000,
-  "roomId" : "MT5000",
+  "number" : 2002,
+  "roomId" : "MT2002",
   "password" : null,
   "public" : true
+}, {
+  "name" : "SWC Room",
+  "number" : 101,
+  "roomId" : "MT101",
+  "password" : "password",
+  "public" : false
+},  {
+  "name" : "Contractor Rich Room",
+  "number" : 102,
+  "roomId" : "MT102",
+  "password" : "password",
+  "public" : false
 }]
