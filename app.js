@@ -46,7 +46,6 @@ fs.readFile('./login.ejs', 'utf8', function (error, data) {
     loginEJS = data;
 });
 
-
 var errorEJS;
 fs.readFile('./error.ejs', 'utf8', function (error, data) {
   if(error)
@@ -55,9 +54,27 @@ fs.readFile('./error.ejs', 'utf8', function (error, data) {
     errorEJS = data;
 });
 
+var indexEJS;
+fs.readFile('./index.ejs', 'utf8', function (error, data) {
+  if(error)
+    console.error(error);
+  else
+    indexEJS = data;
+});
+
+//Init Room List
+var publicRooms = [];
+for(i = 0; i < rooms.length, i++){
+    var roomAtIndex = rooms[i];
+    if(roomAtIndex.public == true){
+        publicRooms.push(roomAtIndex);
+    }
+}
+
 //Connection Handlers
 app.get('/', function(req, res){
-    res.status(200).sendFile(__dirname + '/list.ejs');
+    res.set('Content-Type', 'text/html');
+    res.status(200).send(ejs.render(indexEJS, {rooms: publicRooms}));
 });
 //Uses EJS
 var roomRouter = express.Router();
