@@ -10,6 +10,7 @@ var io = require('socket.io')(http);
 var moment = require('moment');
 var ejs = require('ejs');
 var fs = require("fs");
+var bodyParser = require('body-parser')
 var markdown = require('markdown-it')({
     html: false,
     xhtmlOut: true,
@@ -21,17 +22,11 @@ var markdown = require('markdown-it')({
     highlight: function() {return '';}
 });
 
-var bodyParser = require('body-parser')
-// create application/json parser
-var jsonParser = bodyParser.json()
-
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
 //Globals
 var day = 86400000;
 var rooms = require("./room"); //JSON with Rooms
 var db = require("./db");
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 //Init EJS
 var indexEJS;
@@ -46,7 +41,7 @@ fs.readFile('./index.ejs', 'utf8', function (error, data) {
 var loginEJS;
 fs.readFile('./login.ejs', 'utf8', function (error, data) {
   if(error){
-    console.log(error)
+    console.error(error);
   }else{
   loginEJS = data;
   }
@@ -56,7 +51,7 @@ fs.readFile('./login.ejs', 'utf8', function (error, data) {
 var errorEJS;
 fs.readFile('./error.ejs', 'utf8', function (error, data) {
   if(error){
-    console.log(error)
+    console.error(error);
   }else{
   errorEJS = data;
   }
@@ -68,7 +63,7 @@ app.get('/', function(req, res){
 });
 //Uses EJS
 var roomRouter = express.Router();
-roomRouter.post('/room/:id/',urlencodedParser, function(req, res,next){
+roomRouter.post('/room/:id/', urlencodedParser, function(req, res,next){
     if (!req.body) return res.sendStatus(400);
     var id = req.params.id;
     var roomName;
@@ -95,7 +90,7 @@ roomRouter.post('/room/:id/',urlencodedParser, function(req, res,next){
                 res.status(500).send("Uh oh! An error ocurred: " + error.message);
             });
         }else{
-            res.status(404).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: 'The required password was false'}));
+            res.status(400).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: 'Incorrect Password.'}));
         }
     }
 });
@@ -115,7 +110,7 @@ roomRouter.get('/room/:id/', function(req, res,next){
         }
     }
     if(roomName == null){
-        res.status(404).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: "Anyway the room name doesn't exist"}));
+        res.status(404).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: "Uh oh! This room sadly doesn't exist."}));
     }else{
         res.set('Content-Type', 'text/html');
         if(roomPassword != null){
