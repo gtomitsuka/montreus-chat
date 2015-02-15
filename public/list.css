@@ -32,6 +32,9 @@ li:hover{
     text-shadow: 0px 0px 4px rgba(200, 200, 200, 1);
 
 }
+a {
+    color: white;
+}
 ul{
     font-size: 1.3em;
 }
