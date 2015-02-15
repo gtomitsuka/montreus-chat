@@ -58,7 +58,7 @@
                         </button>
                         <br>
                         <button class="radius" id="notificationButton" name="button" style="top: 11%;" onClick="addNotifications()">
-                            Add Notifications
+                            Enable Notifications
                         </button>
                     </div>
                     <br>
@@ -96,7 +96,7 @@
                     localStorage.setItem('MTChat_Notifications', false);
                 }else{
                     if(usingNotifications == true)
-                        document.getElementById("notificationButton").innerHTML = "Stop Notifications";
+                        document.getElementById("notificationButton").innerHTML = "Disable Notifications";
                 }
                 var username = '<%= username %>';
                 localStorage.setItem('MTChat_Username', username);
@@ -175,9 +175,10 @@
             }
             function addNotifications(){
                 Notification.requestPermission( function(status) {
+                console.log(status);
                     if(status == "granted"){
                         localStorage.setItem("MTChat_Notifications", true);
-                        document.getElementById("notificationButton").innerHTML = "Stop Notifications";
+                        document.getElementById("notificationButton").innerHTML = "Disable Notifications";
                     }
                 });
             }
