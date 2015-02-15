@@ -125,6 +125,9 @@
                     $('#messages').append('<li style="display: table; width: 100%;">' + '<p class="alignLeft">' + result.username + result.usernameMessageSperator + result.message + '</p><p class="alignRight">' + result.time + '</p></li>');
                     if(usingNotifications == true && result.username != currentUser)
                         var n = new Notification(result.username, {body: result.message});
+                        n.onshow = function () { 
+                        setTimeout(n.close.bind(n), 3000); 
+                        }
                     if(isBottom){
                          $("html, body").animate({ scrollTop: $(document).height() }, 1000);
                     }
@@ -173,6 +176,7 @@
                 }
             }
             function addNotifications(){
+              if(usingNotifications != true){
                 Notification.requestPermission( function(status) {
                     if (Notification.permission !== status) {
                       Notification.permission = status;
@@ -180,6 +184,9 @@
                     if(Notification.permission == "granted")
                         changeNotificationsStatus(true);
                 });
+              }else{
+                changeNotificationsStatus(false);
+              }
             }
             //Thanks to Jano González from SE for this
             var verifyEmptyness = function(str) {
