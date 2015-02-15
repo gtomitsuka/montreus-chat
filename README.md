@@ -1,4 +1,6 @@
 # montreus-chat
+![Travis Build](https://travis-ci.org/gtomitsuka/montreus-chat.svg?branch=feature%2Fopen-sans)
+
 Montreus Chatting Solution, as you can find on http://swc.montreus.com:3030/room/900.<br>
 It works with Node.js, and supports Markdown.<br> It includes tons of security: Protection against XSS scripting, against huge messages and thousands of robot connections that could take the server down.
 
