@@ -217,8 +217,7 @@ var processMessage = function(message){
         var command = firstWord(message.message);
         switch(command.toLowerCase()){
             case "/help":
-                response = createResponse('',"Montreus Chat - v2.0<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message</p>", time, '', false,false, false);
-       
+            response = createResponse('',"Montreus Chat - v2.4.1<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message<br>/version - See the current Montreus Chat version</p>", time, '', false,false, false);
             break;
             case "/bot-say":
                 var msg = otherWords(message.message);
@@ -237,10 +236,10 @@ var processMessage = function(message){
                 }
             break;
             case "/me":
-                response = createResponse('', 'Montreus Chat - v2.0<br>Username: ' + message.username, time, '', false, false, true);
+                response = createResponse('', 'Montreus Chat - v2.4.1<br>Username: ' + message.username, time, '', false, false, true);
             break;
             case "/version":
-                response = createResponse('', 'Montreus Chat - v2.0', time, '', false, false, false);
+                response = createResponse('', 'Montreus Chat - v2.4.1', time, '', false, false, false);
             break;
             default:
                 response = createResponse('', 'Invalid command', time, '', false, false, false);
