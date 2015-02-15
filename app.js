@@ -31,7 +31,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Init EJS
 var roomEJS;
-fs.readFile('./room.ejs', 'utf8', function (error, data) {
+fs.readFile('./views/room.ejs', 'utf8', function (error, data) {
   if(error)
     console.log(error)
   else
@@ -39,7 +39,7 @@ fs.readFile('./room.ejs', 'utf8', function (error, data) {
 });
 
 var loginEJS;
-fs.readFile('./login.ejs', 'utf8', function (error, data) {
+fs.readFile('./views/login.ejs', 'utf8', function (error, data) {
   if(error)
     console.error(error);
   else
@@ -47,7 +47,7 @@ fs.readFile('./login.ejs', 'utf8', function (error, data) {
 });
 
 var errorEJS;
-fs.readFile('./error.ejs', 'utf8', function (error, data) {
+fs.readFile('./views/error.ejs', 'utf8', function (error, data) {
   if(error)
     console.error(error);
   else
@@ -55,7 +55,7 @@ fs.readFile('./error.ejs', 'utf8', function (error, data) {
 });
 
 var indexEJS;
-fs.readFile('./index.ejs', 'utf8', function (error, data) {
+fs.readFile('./views/index.ejs', 'utf8', function (error, data) {
   if(error)
     console.error(error);
   else
@@ -182,7 +182,7 @@ io.on('connection', function(socket){
                     socket.emit('chat message', result);
                 }
             }else{
-                var time = moment(msg.date).format("LT, D/M");
+                var time = moment(time).format("LT, D/M");
                 socket.emit('chat message', createResponse('','You may not send empty messages',time, '', true,false, false));
             }
         });
@@ -203,7 +203,7 @@ io.on('connection', function(socket){
 });
 
 var processMessage = function(message){
-    var time = moment(message.date).format("LT, D/M");
+    var time = moment(new Date()).format("LT, D/M");
     var response;
     if(message.message.length <= 8192){
     if(message.message.slice(0,1) !== "/"){
