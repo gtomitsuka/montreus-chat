@@ -14,7 +14,7 @@
     "compression": "^1.4.0"
   },
   "devDependencies": {    
-    "vows": "^0.7.0",
+    "vows": "^0.7.0"
   },
   "scripts": {
     "test": "vows --spec --isolate",
