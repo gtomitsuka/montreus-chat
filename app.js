@@ -23,10 +23,13 @@ var markdown = require('markdown-it')({
     highlight: function() {return '';}
 });
 
-//Globals
-var day = 86400000;
+//Montreus APIs
 var rooms = require("./room"); //JSON with Rooms
 var db = require("./db");
+var errorPage = require("./error-page");
+
+//Globals
+var day = 86400000;
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Init EJS
@@ -161,6 +164,8 @@ pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
 pagesRouter.use(compression({ threshold: 512 }));
 app.use('/', pagesRouter);
 
+//404 Router
+app.use(errorPage);
 
 //Sockets
 io.on('connection', function(socket){
