@@ -91,13 +91,6 @@
             $(function(){
                 $('body').addClass('js');
                 $("html, body").scrollTop($(document).height());
-                usingNotifications = localStorage.getItem('MTChat_Notifications');
-                if(!usingNotifications) {
-                    localStorage.setItem('MTChat_Notifications', false);
-                }else{
-                    if(usingNotifications == true)
-                        document.getElementById("notificationButton").innerHTML = "Disable Notifications";
-                }
                 var username = '<%= username %>';
                 localStorage.setItem('MTChat_Username', username);
                 currentUser = username;
@@ -118,6 +111,12 @@
                         return false;
                     }
                 });
+                
+                //Notification Startup
+                usingNotifications = localStorage.getItem('MTChat_Notifications');
+                if(usingNotifications == true)
+                    changeNotificationsStatus(true);
+                
                 socket.on('chat message', function(result){
                     var isBottom = false;
                     if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
@@ -175,11 +174,12 @@
             }
             function addNotifications(){
                 Notification.requestPermission( function(status) {
-                console.log(status);
-                    if(status == "granted"){
-                        localStorage.setItem("MTChat_Notifications", true);
-                        document.getElementById("notificationButton").innerHTML = "Disable Notifications";
+                    if (Notification.permission !== status) {
+                      Notification.permission = status;
                     }
+                    if(Notification.permission == "granted")
+                        changeNotificationsStatus(true);
+                  }
                 });
             }
             //Thanks to Jano González from SE for this
@@ -188,6 +188,14 @@
             };
             var isNumber = function(obj) {
                 return (!jQuery.isArray(obj) && (obj - parseFloat(obj) + 1) >= 0);
+            }
+            var changeNotificationsStatus = function(status){
+                usingNotifications = status;
+                localStorage.setItem('MTChat_Notifications', status);
+                if(status == true)
+                $('#notificationButton').text('Disable Notifications');
+                else
+                $('#notificationButton').text('Enable Notifications');
             }
         </script>
     </div>
