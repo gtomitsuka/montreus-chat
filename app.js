@@ -64,7 +64,7 @@ fs.readFile('./views/index.ejs', 'utf8', function (error, data) {
 
 //Init Room List
 var publicRooms = [];
-for(i = 0; i < rooms.length, i++){
+for(i = 0, i < rooms.length, i++){
     var roomAtIndex = rooms[i];
     if(roomAtIndex.public == true){
         publicRooms.push(roomAtIndex);
