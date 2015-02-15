@@ -56,6 +56,10 @@
                         <button class="radius" name="button" style="top: 11%;" onClick="changeRoom()">
                             Change Room
                         </button>
+                        <br>
+                        <button class="radius" id="notificationButton" name="button" style="top: 11%;" onClick="addNotifications()">
+                            Add Notifications
+                        </button>
                     </div>
                     <br>
                     <p class="connectionLabel" style="position: relative; width:100%; text-align: center; color: white; font-size: 16px">
@@ -82,15 +86,21 @@
         <script type="text/javascript" src="../../jquery.mmenu.min.all.js"></script>
         <script>
             var currentUser;
-             var nameMessageHTMLPatternBegin = "Welcome, ";
+            var nameMessageHTMLPatternBegin = "Welcome, ";
+            var usingNotifications;
             $(function(){
                 $('body').addClass('js');
                 $("html, body").scrollTop($(document).height());
-              
+                usingNotifications = localStorage.getItem('MTChat_Notifications');
+                if(!usingNotifications) {
+                    localStorage.setItem('MTChat_Notifications', false);
+                }else{
+                    if(usingNotifications == true)
+                        document.getElementById("notificationButton").innerHTML = "Stop Notifications";
+                }
                 var username = '<%= username %>';
-                   /* var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");*/
-                        localStorage.setItem('MTChat_Username', username);
-                        currentUser = username;
+                localStorage.setItem('MTChat_Username', username);
+                currentUser = username;
                 
                 $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                 var connectionQuery = "username=" + currentUser + "&room=<%= id %>";
@@ -114,6 +124,8 @@
                         isBottom = true;
                     }
                     $('#messages').append('<li style="display: table; width: 100%;">' + '<p class="alignLeft">' + result.username + result.usernameMessageSperator + result.message + '</p><p class="alignRight">' + result.time + '</p></li>');
+                    if(usingNotifications == true && result.username != currentUser)
+                        var n = new Notification(result.username, {body: result.message});
                     if(isBottom){
                          $("html, body").animate({ scrollTop: $(document).height() }, 1000);
                     }
@@ -152,6 +164,22 @@
                     $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                     socket.emit('postName', currentUser);
                 }
+            }
+            function changeRoom(){
+                var newRoomId = prompt("Type in the new room's id:");
+                if(isNumber(newRoomId)){
+                    window.location.assign("../../room/" + newRoomId);
+                }else{
+                    alert("Invalid room ID");
+                }
+            }
+            function addNotifications(){
+                Notification.requestPermission( function(status) {
+                    if(status == "granted"){
+                        localStorage.setItem("MTChat_Notifications", true);
+                        document.getElementById("notificationButton").innerHTML = "Stop Notifications";
+                    }
+                });
             }
             //Thanks to Jano González from SE for this
             var verifyEmptyness = function(str) {
