@@ -1,53 +1,60 @@
 <!DOCTYPE html>
 <html>
-	<head>
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  	<meta charset="utf-8">
-  	<title>Montreus Chat</title>
-  	<link rel="stylesheet" type="text/css" href="../../reset.css"> 
-  	<!-- <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">  -->
-  	<link type="text/css" rel="stylesheet" href="../../list.css" />
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Montreus Chat</title>
+    <link rel="stylesheet" type="text/css" href="../../reset.css"> 
+    <!-- <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">  -->
+    <link type="text/css" rel="stylesheet" href="../../list.css" />
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400italic,700,400|Open+Sans:400italic,600italic,400' rel='stylesheet' type='text/css'>
-	</head>
-	<body>
-		<h1>Welcome to Montreus Chat!</h1>
-    		<div class='content'>
-    			<header>
-    				<h2>Montreus Chat - A Node.js + Socket.io Chat</h2>
-    				<div id="rooms">
-    					<h3>Rooms:</h3>
-    					<ul class='inline-list'>
-      					<% for(var i = 0; i < rooms.length; i++) {%>
-        					<li><a href="../../room/<%= rooms[i].number %>"><%= rooms[i].name %></a></li>
-      					<% } %>
-						</ul>
+  </head>
+  <body>
+    <h1>Welcome to Montreus Chat!</h1>
+        <div class='content'>
+          <header>
+            <h2>Montreus Chat - A Node.js + Socket.io Chat</h2>
+            <div id="rooms">
+              <h3>Rooms:</h3>
+              <ul class='inline-list'>
+                <% for(var i = 0; i < rooms.length; i++) {%>
+                  <li><a href="../../room/<%= rooms[i].number %>"><%= rooms[i].name %></a></li>
+                <% } %>
+            </ul>
 <img src="chat.png">
 
 <div id="description">
-					<p>Real-Time Chat Service from Montreus. This chat is based on Node.js and uses different modules like Socket.io and Mongoose. Also it has responsive webdesign. Published as Open-Source.<br><a href="http://github.com/gtomitsuka/montreus-chat" target="_blank">Check it out on Github</a><p><p>Contributor: Gabriel Tomitsuka, speedDeveloper, ProgramFOX, Unihedro</p></div>
-    				
-    			
-						
-					<div style="clear: both;"></div>
-				
-					</div>
-    					
-    			</header>
+          <p>Real-Time Chat Service from Montreus. This chat is based on Node.js and uses different modules like Socket.io and Mongoose. Also it has responsive webdesign. Published as Open-Source.<br><a href="http://github.com/gtomitsuka/montreus-chat" target="_blank">Check it out on Github</a><p><p>Contributor: Gabriel Tomitsuka, speedDeveloper, ProgramFOX, Unihedro</p></div>
+            
+          
+            
+          <div style="clear: both;"></div>
+        
+          </div>
+              
+          </header>
 
-    			
-			</div>
+          
+      </div>
 <footer>
-	<div>
-	<img src="chat.png">
-
-<img src="chat.png">
-
-<img src="chat.png">
+  <div>
+    <div>
+      <img src="chat.png">
+      <p>Example Text, example text, example text, example text, example text, example text</p>
+    </div>
+    <div>
+      <img src="chat.png">
+      <p>Example Text, example text, example text, example text, example text, example text</p>
+    </div>
+    <div>
+      <img src="chat.png">
+      <p>Example Text, example text, example text, example text, example text, example text</p>
+    </div>
 <p>Copyright Montreus Chat</p>
 <div>
-	
+  
 </footer>
-	</body>
-	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-	<script type="text/javascript"></script>
+  </body>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script type="text/javascript"></script>
 </html>

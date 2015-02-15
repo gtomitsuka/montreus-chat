@@ -143,15 +143,23 @@ footer div img{
       -webkit-box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
 -moz-box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
 box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
-margin-bottom: 3em;
+margin-bottom: 1em;
 }
 
 
-footer div{
+footer > div{
     width: 64%;
     text-align: center;
     margin-right: auto;
     margin-left: auto;
+}
+footer div div p{
+  text-align: left;
+  padding-top: 0%;
+  font-size: 1.5em;
+}
+footer div > div{
+  margin-bottom: 2.5em;
 }
 
 @media (min-width: 750px){
@@ -292,23 +300,36 @@ footer p{
     padding-top: 3em;
     padding-bottom: 0.2em;
 }
-footer div img{
+footer div > div{
     display: inline-block;
     width: 29%;
-      -webkit-box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
--moz-box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
-box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
+
 
 }
-footer div img:nth-child(2){
+footer img{
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
+-moz-box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
+box-shadow: 0px 0px 10px 0px rgba(200,200,200,0.75);
+}
+footer div > div:nth-child(2){
 margin-left: 5%;
 margin-right: 5%;
 }
-footer div{
+
+
+footer > div{
     width: 64%;
     text-align: center;
     margin-right: auto;
     margin-left: auto;
+}
+footer div div p{
+  text-align: left;
+  padding-top: 0%;
+  font-size: 1.5em;
+}
+footer div > div{
+  margin-bottom: 2.5em;
 }
 
 }
