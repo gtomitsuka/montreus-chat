@@ -13,11 +13,8 @@
     "mongoose" : "^3.8.23",
     "compression": "^1.4.0"
   },
-  "devDependencies": {    
-    "vows": "^0.7.0"
-  },
+  "devDependencies": {},
   "scripts": {
-    "test": "vows --spec --isolate",
     "start": "node chat.js"
   },
   "repository": {
