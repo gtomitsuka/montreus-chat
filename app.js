@@ -23,10 +23,13 @@ var markdown = require('markdown-it')({
     highlight: function() {return '';}
 });
 
-//Globals
-var day = 86400000;
+//Montreus APIs
 var rooms = require("./room"); //JSON with Rooms
 var db = require("./db");
+var errorPage = require("./error-page");
+
+//Globals
+var day = 86400000;
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Init EJS
@@ -55,7 +58,7 @@ fs.readFile('./views/error.ejs', 'utf8', function (error, data) {
 });
 
 var indexEJS;
-fs.readFile('./views/index.ejs', 'utf8', function (error, data) {
+fs.readFile('./views/list.ejs', 'utf8', function (error, data) {
   if(error)
     console.error(error);
   else
@@ -64,7 +67,7 @@ fs.readFile('./views/index.ejs', 'utf8', function (error, data) {
 
 //Init Room List
 var publicRooms = [];
-for(i = 0; i < rooms.length, i++){
+for(i = 0; i < rooms.length; i++){
     var roomAtIndex = rooms[i];
     if(roomAtIndex.public == true){
         publicRooms.push(roomAtIndex);
@@ -161,6 +164,8 @@ pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
 pagesRouter.use(compression({ threshold: 512 }));
 app.use('/', pagesRouter);
 
+//404 Router
+app.use(errorPage);
 
 //Sockets
 io.on('connection', function(socket){
@@ -212,8 +217,7 @@ var processMessage = function(message){
         var command = firstWord(message.message);
         switch(command.toLowerCase()){
             case "/help":
-                response = createResponse('',"Montreus Chat - v2.0<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message</p>", time, '', false,false, false);
-       
+            response = createResponse('',"Montreus Chat - v2.4.1<br>Available commands:<br>/help - Display help commands<br>/bot-say &lt;message&gt; - Give something for the bot to say!<br>/broadcast &lt;message&gt; - Broadcast a message<br>/version - See the current Montreus Chat version</p>", time, '', false,false, false);
             break;
             case "/bot-say":
                 var msg = otherWords(message.message);
@@ -232,10 +236,10 @@ var processMessage = function(message){
                 }
             break;
             case "/me":
-                response = createResponse('', 'Montreus Chat - v2.0<br>Username: ' + message.username, time, '', false, false, true);
+                response = createResponse('', 'Montreus Chat - v2.4.1<br>Username: ' + message.username, time, '', false, false, true);
             break;
             case "/version":
-                response = createResponse('', 'Montreus Chat - v2.0', time, '', false, false, false);
+                response = createResponse('', 'Montreus Chat - v2.4.1', time, '', false, false, false);
             break;
             default:
                 response = createResponse('', 'Invalid command', time, '', false, false, false);
