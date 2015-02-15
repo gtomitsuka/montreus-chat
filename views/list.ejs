@@ -10,17 +10,15 @@
 	</head>
 	<body>
 		<h1>Welcome to Montreus Chat!</h1>
-    <div class='content'>
+    		<div class='content'>
 	<h2>Montreus Chat - A Node.js + Socket.io Chat - <a href="http://github.com/gtomitsuka/montreus-chat" target="_blank">GitHub Source</a></h2>
 	<ul class='inline-list'>
       <% for(var i = 0; i < rooms.length; i++) {%>
-        <li><a href="../../room/<%= rooms[i]. %>"><%= rooms[i].name %></a></li>
-      <% } %>
-    </div>
-</ul>
+        <li><a href="../../room/<%= rooms[i].number %>"><%= rooms[i].name %></a></li>
+      	<% } %>
+	    </div>
+	</ul>
 	</body>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 	<script type="text/javascript">
-
-	</script>
 </html>
