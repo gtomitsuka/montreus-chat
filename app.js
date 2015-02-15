@@ -55,7 +55,7 @@ fs.readFile('./views/error.ejs', 'utf8', function (error, data) {
 });
 
 var indexEJS;
-fs.readFile('./views/index.ejs', 'utf8', function (error, data) {
+fs.readFile('./views/list.ejs', 'utf8', function (error, data) {
   if(error)
     console.error(error);
   else
