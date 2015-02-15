@@ -13,7 +13,9 @@
     "mongoose" : "^3.8.23",
     "compression": "^1.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {    
+    "mocha": "^1.17.1"
+  },
   "scripts": {
     "start": "node chat.js"
   },
