@@ -100,8 +100,7 @@
                     if(!verifyEmptyness(messageInput)){
                         var messageToSend = {
                             message: messageInput,
-                            username: currentUser,
-                            date: Date.now()
+                            username: currentUser
                         };
                         socket.emit('chat message', messageToSend);
                         $('#messageInput').val('');
