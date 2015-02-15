@@ -30,7 +30,7 @@
     display: none;
 }
 body {
-    font: 16px "Helvetica Neue", Helvetica, Arial;
+    font: 16px "Open Sans", "Helvetica Neue", Helvetica, Arial;
     max-height: 100%;
     overflow:visible;
     background-color: #f6f6f6;
@@ -235,7 +235,7 @@ h1 span{
         box-sizing: border-box;
     }
     body {
-        font: 16px "Helvetica Neue", Helvetica, Arial;
+        font: 16px "Open Sans", "Helvetica Neue", Helvetica, Arial;
         max-height: 100%;
         overflow:visible;
     }

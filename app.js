@@ -29,7 +29,7 @@ var db = require("./db");
 var errorPage = require("./error-page");
 
 //Globals
-var day = 86400000;
+//var cacheTime = 60;
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Init EJS
@@ -160,7 +160,7 @@ app.use(roomRouter);
 
 //Public Folder
 var pagesRouter = express.Router();
-pagesRouter.use(express.static(__dirname + '/public', { maxAge: day }));
+pagesRouter.use(express.static(__dirname + '/public'));
 pagesRouter.use(compression({ threshold: 512 }));
 app.use('/', pagesRouter);
 
