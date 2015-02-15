@@ -14,10 +14,10 @@
     "compression": "^1.4.0"
   },
   "devDependencies": {    
-    "mocha": "^1.17.1"
+    "vows": "^0.7.0",
   },
   "scripts": {
-    "test": "mocha --reporter spec test",
+    "test": "vows --spec --isolate",
     "start": "node chat.js"
   },
   "repository": {
