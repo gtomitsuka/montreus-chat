@@ -17,6 +17,7 @@
     "mocha": "^1.17.1"
   },
   "scripts": {
+    "test": "mocha --reporter spec test",
     "start": "node chat.js"
   },
   "repository": {
