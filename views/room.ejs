@@ -82,15 +82,23 @@
         <script type="text/javascript" src="../../jquery.mmenu.min.all.js"></script>
         <script>
             var currentUser;
-             var nameMessageHTMLPatternBegin = "Welcome, ";
+            var nameMessageHTMLPatternBegin = "Welcome, ";
             $(function(){
                 $('body').addClass('js');
                 $("html, body").scrollTop($(document).height());
               
                 var username = '<%= username %>';
-                   /* var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");*/
+
+                /* var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");*/
+                try{
+                    if (typeof localStorage !== 'undefined') {
+                        alert('t');
                         localStorage.setItem('MTChat_Username', username);
-                        currentUser = username;
+                    }
+                }catch(e){
+                }
+
+                currentUser = username;
                 
                 $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                 var connectionQuery = "username=" + currentUser + "&room=<%= id %>";
