@@ -92,6 +92,7 @@
                 /* var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");*/
                 try{
                     if (typeof localStorage !== 'undefined') {
+                        alert('t');
                         localStorage.setItem('MTChat_Username', username);
                     }
                 }catch(e){
