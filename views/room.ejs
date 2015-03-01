@@ -6,10 +6,10 @@
   <title><%= title %></title>
   <base target="_blank">
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="../../reset.css"> 
-  <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css"> 
+  <link rel="stylesheet" type="text/css" href="../../reset.css">
+  <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">
   <link type="text/css" rel="stylesheet" href="../../jquery.mmenu.all.css" />
-  <link type="text/css" rel="stylesheet" href="../../stylesheet.css" />  
+  <link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
 </head>
 <body>
     <div id="content">
@@ -92,9 +92,17 @@
                 $('body').addClass('js');
                 $("html, body").scrollTop($(document).height());
                 var username = '<%= username %>';
-                localStorage.setItem('MTChat_Username', username);
+
+                /* var returnedUsername = prompt("Welcome to <%= title %>!\n Please type in an username. (Leave empty for no username at all)");*/
+                try{
+                    if (typeof localStorage !== 'undefined') {
+                        localStorage.setItem('MTChat_Username', username);
+                        usingNotifications = localStorage.getItem('MTChat_Notifications');
+                    }
+                }catch(e){
+                }
                 currentUser = username;
-                
+
                 $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                 var connectionQuery = "username=" + currentUser + "&room=<%= id %>";
                 var socket = io.connect("" , {query:connectionQuery});
@@ -111,12 +119,11 @@
                         return false;
                     }
                 });
-                
+
                 //Notification Startup
-                usingNotifications = localStorage.getItem('MTChat_Notifications');
                 if(usingNotifications == true)
                     changeNotificationsStatus(true);
-                
+
                 socket.on('chat message', function(result){
                     var isBottom = false;
                     if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
@@ -124,10 +131,7 @@
                     }
                     $('#messages').append('<li style="display: table; width: 100%;">' + '<p class="alignLeft">' + result.username + result.usernameMessageSperator + result.message + '</p><p class="alignRight">' + result.time + '</p></li>');
                     if(usingNotifications == true && result.username != currentUser)
-                        var n = new Notification(result.username, {body: result.message});
-                        n.onshow = function () { 
-                        setTimeout(n.close.bind(n), 3000); 
-                        }
+                        new Notification(result.username, {body: result.message});
                     if(isBottom){
                          $("html, body").animate({ scrollTop: $(document).height() }, 1000);
                     }
