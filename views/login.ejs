@@ -6,6 +6,7 @@
   	<title>Enter <%= title %></title>
   	<link rel="stylesheet" type="text/css" href="../../reset.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<<<<<<< HEAD
   	<link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">
   	<link type="text/css" rel="stylesheet" href="../../login.css" />
 	</head>
@@ -37,11 +38,123 @@
 			<input class="button radius" value="Enter Room" type="submit">
 			</div>
 		</form>
+=======
+    
+
+    <link type="text/css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="../../alertify.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="../../themes/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../../login.css" />
+    
+	</head>
+	<body>
+>>>>>>> alertify.js
 	</body>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="../../alertify.min.js"></script>
 	<script type="text/javascript">
 $(function(){
+	alertify.defaults.transition = "slide";
+alertify.defaults.theme.ok = "btn btn-primary";
+alertify.defaults.theme.cancel = "btn btn-danger";
+alertify.defaults.theme.input = "form-control";
 	var roomLocalStorageCode = "MTChat_Password<%= id %>";
+	var username = localStorage.getItem('MTChat_Username');
+	var roomPassword = localStorage.getItem(roomLocalStorageCode);
+
+
+
+
+
+  alertify.dialog('loginAlert',function factory(){
+    return{
+            build:function(){
+                var header = '<span class="fa fa-times-circle fa-2x" '
+                +    'style="vertical-align:middle;color:#e10000;">'
+                + '</span> Login';
+                this.setHeader(header);
+            },
+            options: {
+            	 closableByDimmer: true
+            },
+           	prepare: function(){
+
+   				if(username !== null && roomPassword != null){
+    				$('#username-input').attr('value',username);
+
+              $('#password-input').attr('value', roomPassword);
+        			
+				}
+
+        $('button').click(function(e){
+sendData();
+  e.preventDefault(); e.stopPropagation();});
+
+$('.ajs-dialog').click(function(e){
+
+  e.preventDefault(); e.stopPropagation();});
+			}
+            
+        };
+    },true,'alert');
+
+var passwordHTML = '<div class="form-group"><label for="password">Password:</label><input name="password" type="password" class="form-control" id="password-input" placeholder="Enter password"></div>';
+if(<%= isPasswordProtected %> != true) {
+  passwordHTML = '';
+}
+
+
+
+
+  alertify
+    .loginAlert('<form method="post" action="/room/<%= id %>"><div class="form-group"><label for="username">Username:</label><input name="username" type="text" class="form-control" id="username-input" placeholder="Enter username"></div>' + passwordHTML + '</form>').set({'closableByDimmer': false});
+
+
+var checkIfAllIsValid = function(){
+	var isEmpty = false;
+	$('form input').each(function(){
+		var empty = verifyEmptyness($(this).val());
+		var parent = $(this).parent();
+		if(empty != true){
+			parent.addClass('has-success').removeClass('has-error');
+		}else{
+			isEmpty = true;
+			parent.addClass('has-error').removeClass('has-success');
+
+		}
+
+	});
+
+	return !(isEmpty);
+}
+
+var sendData = function(){
+	var valid = checkIfAllIsValid();
+            	var form = $('form');
+            	if(valid){
+            		form.submit();
+            	}else{
+
+            	}
+}
+
+   var verifyEmptyness = function(str) {
+                return (str.length === 0 || !str.trim());
+            };
+
+
+
+
+
+
+
+
+//launch it.
+// since this was transient, we can launch another instance at the same time.
+
+/*	var roomLocalStorageCode = "MTChat_Password<%= id %>";
 	var username = localStorage.getItem('MTChat_Username');
 	var roomPassword = localStorage.getItem(roomLocalStorageCode);
    	if(username !== null){
@@ -53,7 +166,10 @@ $(function(){
 	}else{
 		if(username !== null)
 			$('#nameField').attr('value', username);
-	}
+	}*/
+
+
+
 });
 	</script>
 </html>

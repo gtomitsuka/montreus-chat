@@ -3,6 +3,84 @@
     padding: 0;
     box-sizing: border-box;
 }
+.input-group{
+    margin-bottom: 1.3em;
+}
+.alertify.ajs-maximized .ajs-footer, .alertify.ajs-resizable .ajs-footer{
+    position: static;
+}
+.alertify.ajs-maximized .ajs-header, .alertify.ajs-resizable .ajs-header{
+    position: static;
+}
+.alertify.ajs-maximized .ajs-body, .alertify.ajs-resizable .ajs-body{
+    min-height: inherit;
+    display: block;
+}
+.alertify.ajs-maximized .ajs-body .ajs-content, .alertify.ajs-resizable .ajs-body .ajs-content{
+    position: static;
+}
+#submit-form-group{
+    width: 17.5%;
+}
+form #message-send-button-div{
+    display: inline-block;
+    text-align: center;
+    vertical-align: bottom;
+    width: 20%;
+    line-height: 2.5em;
+}
+#messageInput{
+    width: 100%;
+    border-radius: 0%;
+
+}
+form{
+    height: 2.5em;
+}
+form #message-div{
+    width: 100%;
+}
+form #message-input-div{
+    width: 80%;
+    float: left;
+    height: 2.5em;
+}
+form #message-send-button-div{
+background-color: #008CBA;
+}
+form #message-send-button-div:hover{
+    background-color: #007095;
+    cursor: pointer;
+}
+form #message-send-button-div a{
+    text-decoration: none;
+width: 100%;
+line-height: 2.5em;
+display: block;
+}
+form input.form-control{
+    height: inherit;
+}
+form #message-send-button-div a:hover{
+text-decoration: none;
+width: 100%;
+line-height: 2.5em;
+display: block;
+}
+#message-form-group{
+    width: 82.5%;
+}
+#message-form-group input{
+    width: 100%;
+    border-radius: 0%;
+}
+#message-form-group .input-group{
+    width: 100%;
+}
+#change-username-button, #login-button{
+    width: inherit;
+}
+
 #no-js div, .error div{
     background-color: #1e89cf;
     color: #F6F6F6;
@@ -121,9 +199,12 @@ form  div.row{
 button.radius, .button.radius{
   border-radius: 0px;
   background-color: rgba(255, 255, 255, 0.08);
+  padding-top: 1.1em;
+  padding-bottom: 1.1em;
+  font-size: 1.1em;
+  color: #F6F6F6;
 }
 button:hover{
-    border-radius: 0px;
     background-color: #008CBA
 }
 #sidebar > div{

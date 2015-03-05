@@ -81,53 +81,7 @@ app.get('/', function(req, res){
 });
 //Uses EJS
 var roomRouter = express.Router();
-roomRouter.post('/room/:id/', urlencodedParser, function(req, res,next){
-    if (!req.body) return res.sendStatus(400);
-    //Room Parameters
-    var roomName;
-    var roomId;
-    var roomPassword;
-    var isPublic;
-    
-    //Request Parameters
-    var id = req.params.id;
-    var postUsername = req.body.username;
-    var postPassword = req.body.password;
-    
-    //Search for room with the name
-    for(var i = 0; i < rooms.length; i++){
-      var room = rooms[i];
-        if(room.number == id){
-            roomName = room.name;
-            roomId = room.roomId;
-            roomPassword = room.password;
-            isPublic = room.public;
-        }
-    }
-    if(roomName == null){
-        res.status(404).sendFile(__dirname + '/error.html');
-    }else{
-        if(!isPublic) {
-        if(roomPassword + '' == postPassword){
-            db.find(roomId).then(function(messages){
-                res.set('Content-Type', 'text/html');
-                res.status(200).send(ejs.render(roomEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
-            }, function(error){
-                res.status(500).send("Uh oh! An error ocurred: " + error.message);
-            });
-        }else{
-            res.status(400).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: 'Incorrect Password.'}));
-        }
-        }else{
-            db.find(roomId).then(function(messages){
-                res.set('Content-Type', 'text/html');
-                res.status(200).send(ejs.render(roomEJS, {title: roomName, id: roomId, username: postUsername, messages: messages}));
-            }, function(error){
-                res.status(500).send("Uh oh! An error ocurred: " + error.message);
-            });
-        }
-    }
-});
+
 
 
 roomRouter.get('/room/:id/', function(req, res,next){
@@ -148,9 +102,9 @@ roomRouter.get('/room/:id/', function(req, res,next){
     }else{
         res.set('Content-Type', 'text/html');
         if(roomPassword != null){
-            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, isPasswordProtected: true}));
+            res.status(200).send(ejs.render(roomEJS, {title: roomName, id: id, isPasswordProtected: true}));
         }else{
-            res.status(200).send(ejs.render(loginEJS, {title: roomName, id: id, isPasswordProtected: false}));
+            res.status(200).send(ejs.render(roomEJS, {title: roomName, id: id, isPasswordProtected: false}));
         }
       
     }
@@ -172,6 +126,41 @@ io.on('connection', function(socket){
       if(socketConnections().length <= 1024){
         socket.username = socket.handshake.query.username;
         socket.join(socket.handshake.query.room);
+        var roomName;
+        var roomId;
+        var roomPassword;
+        var isPublic;
+        var enteredPassword = socket.handshake.query.password;
+        //Search for room with the name
+        for(var i = 0; i < rooms.length; i++){
+            var room = rooms[i];
+            if(room.number == socket.handshake.query.room){
+                roomName = room.name;
+                roomId = room.roomId;
+                roomPassword = room.password;
+                isPublic = room.public;
+            }
+        }
+
+        if(!isPublic) {
+            if(roomPassword + '' == enteredPassword){
+                db.find(socket.handshake.query.room).then(function(messages){
+                    socket.emit('old messages', messages);
+             
+                }, function(error){
+                    socket.emit('error event', 'Uh oh! An error ocurred: ' + error.message);
+                });
+            }else{
+                socket.emit('error event', 'Incorrect password, please refresh the page and try again.');
+            }
+        }else{
+            db.find(socket.handshake.query.room).then(function(messages){
+                socket.emit('old messages', messages)
+            }, function(error){
+                socket.emit('error event', 'Uh oh! An error ocurred: ' + error.message);
+            });
+        }
+
         socket.on('postName', function(username){
                 socket.username = username;
                 });
