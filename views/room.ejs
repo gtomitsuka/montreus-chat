@@ -6,7 +6,7 @@
   <title><%= title %></title>
   <base target="_blank">
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="../../reset.css"> 
+  <link rel="stylesheet" type="text/css" href="../../reset.css">
     <link type="text/css" rel="stylesheet" href="../../bootstrap.min.css" />
 <!--   <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">  -->
   <link type="text/css" rel="stylesheet" href="../../jquery.mmenu.all.css" />
@@ -29,7 +29,7 @@
         </header>
         <div id="main">
             <ul id="messages">
-  
+
             </ul>
             <form class="form-inline" action="">
                 <div id="message-div" class="form-group">
@@ -92,8 +92,8 @@
                         $(this).parent().addClass('has-error').removeClass('has-success');
                         allValid = false;
                     }
-               
-                    
+
+
                 });
                  return allValid;
             }
@@ -122,7 +122,7 @@
                         },
                         callback: function(e){
                            /* alert('g');
-                            if(checkInputs()){                             
+                            if(checkInputs()){
                                 connect($('#login-username-input').val(), $('#login-password-input').val());
                             }else{
 
@@ -131,7 +131,7 @@
                         prepare: function(){
                             $('#login-button').click(function(e){
                                 var content =$(this).parents('.ajs-dialog').eq(0).find('.ajs-content').eq(0);
-                                if(checkInputs(content)){                          
+                                if(checkInputs(content)){
                                     connect($('#login-username-input').val(), $('#login-password-input').val());
                                 }else{
                                     e.preventDefault(); e.stopPropagation();
@@ -142,7 +142,7 @@
                             return {
                             /* buttons collection */
                                 buttons:[
-                    
+
                                     /*button defintion*/
                                     {
                                     /* button label */
@@ -153,7 +153,7 @@
                                     }
                                 ]
                             };
-            
+
                         }
                     }
                 },false,'alert');
@@ -173,13 +173,13 @@
                         prepare: function(){
                             $('#change-username-button').click(function(e){
                                 var content = $(this).parents('.ajs-dialog').eq(0).find('.ajs-content').eq(0);
-                                if(checkInputs(content)){      
+                                if(checkInputs(content)){
                                     var oldUsername = currentUser;
-                                    var username = $('#username-input').val(); 
+                                    var username = $('#username-input').val();
                                     setLocalStorageItem(USERNAME_STORAGE_KEY, username);
                                     currentUser = username;
                                     $(".username").html(nameMessageHTMLPatternBegin + currentUser);
-                                    socket.emit('postName', currentUser);   
+                                    socket.emit('postName', currentUser);
                                 }else{
                                     e.preventDefault(); e.stopPropagation();
                                 }
@@ -198,12 +198,12 @@
                                     }
                                 ]
                             };
-            
+
                         }
                     }
                 },false,'alert');
 
-                
+
                 alertify.dialog('errorAlert',function factory(){
                     return{
                         build:function(){
@@ -223,12 +223,12 @@
                                 buttons:[
                                 ]
                             };
-            
+
                         }
                     }
                 },false,'alert');
 
-          
+
 
                 login();
 
@@ -239,26 +239,26 @@
 
 
             function login(){
-                
+
                 var isUsernameSet = false;
                 try{
                     if (typeof localStorage !== 'undefined') {
                         var username = localStorage.getItem(USERNAME_STORAGE_KEY);
-                    
+
                         if(username != null && !(verifyEmptyness(username))){
                             isUsernameSet = true;
                             currentUser = username;
                         }
-                       
+
                     }
                 }catch(e){
                 }
-               
+
 
                var passwordHTML = '<div class="input-group"><label>Password</label><input type="password" class="form-control" id="login-password-input" placeholder="Enter password"></div>'
 
                 if(<%= isPasswordProtected %>){
-   
+
                     if(isUsernameSet){
                         alertify
                         .loginAlert('<div class="input-group"><label for="username">Your username:</label><input value="' + currentUser + '" type="text" class="form-control" id="login-username-input" placeholder="Enter username"></div>' + passwordHTML).set({'closableByDimmer': false, 'overflow': false,  'closable': false, 'resizable': false, 'maximizable': false});
@@ -278,7 +278,7 @@
 
                 }
 
-       
+
             }
 
             function responsiveSidebar(){
@@ -296,7 +296,7 @@
                     }
                 });
             }
-            
+
 
             function setLocalStorageItem(propertyName, value){
                 try{
@@ -323,8 +323,8 @@
             var connect = function(username, password){
                 $('body').addClass('js');
                 $("html, body").scrollTop($(document).height());
-                setLocalStorageItem(USERNAME_STORAGE_KEY, username);            
-                currentUser = username;    
+                setLocalStorageItem(USERNAME_STORAGE_KEY, username);
+                currentUser = username;
                 $(".username").html(nameMessageHTMLPatternBegin + currentUser);
                 var connectionQuery = "username=" + currentUser + "&password=" + password + "&room=<%= id %>";
                  socket = io.connect("" , {query:connectionQuery});
@@ -350,11 +350,11 @@
                     for(var i=0; i < messages.length; i++) {
 
                         htmlMessages += '<li style="display: table; width: 100%;"><p class="alignLeft">' + messages[i].result.username + messages[i].result.usernameMessageSperator + messages[i].result.message + '</p><p class="alignRight">' + messages[i].result.time + '</p></li>';
-                    } 
+                    }
 
                     messagesContainer.append(htmlMessages);
                     $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-                   
+
                 });
                 socket.on('error event', function(message){
                     alertify.errorAlert(message).set({'closableByDimmer': false, 'overflow': false,  'closable': false, 'resizable': false, 'maximizable': false});;
@@ -380,7 +380,7 @@
                     }
                 });
                 /* This part is needed to make a responsive sidebar: */
-                
+
                 $('#message-send-button').click(function(){$('form').submit();});
 
             }
