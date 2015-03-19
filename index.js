@@ -2,17 +2,30 @@
  * Main Server File
  * Open-source! Free for all
 */
-//Moduless
+
+//Node.js Standard Modules
 var path = require("path");
-var express = require("express"); //Express.js - Serve pages
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var moment = require('moment');
+var http = require('http');
 var fs = require("fs");
+
+//NPM Modules
+var express = require("express");
+var socketIO = require('socket.io');
+var moment = require('moment');
 var bodyParser = require('body-parser');
 var compression = require('compression');
-var markdown = require('markdown-it')({
+var markdownIt = require('markdown-it');
+
+//montreus-chat Modules
+var rooms = require("./room"); //JSON with Rooms
+var db = require("./db");
+var errorPage = require("./error-page");
+
+//Module Setup
+var app = express();
+var server = http.Server(app);
+var io = socketIO(server);
+var markdown = markdownIt({
     html: false,
     xhtmlOut: true,
     breaks: true,
@@ -22,13 +35,6 @@ var markdown = require('markdown-it')({
     quotes: '“”‘’',
     highlight: function() {return '';}
 });
-
-//Montreus APIs
-var rooms = require("./room"); //JSON with Rooms
-var db = require("./db");
-var errorPage = require("./error-page");
-
-//Globals
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //Init Room List
