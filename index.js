@@ -1,14 +1,14 @@
-/* server/app.js
+/* server/index.js
  * Main Server File
  * Open-source! Free for all
 */
-//APIs
+//Moduless
+var path = require("path");
 var express = require("express"); //Express.js - Serve pages
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var moment = require('moment');
-var ejs = require('ejs');
 var fs = require("fs");
 var bodyParser = require('body-parser');
 var compression = require('compression');
@@ -29,41 +29,7 @@ var db = require("./db");
 var errorPage = require("./error-page");
 
 //Globals
-//var cacheTime = 60;
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-//Init EJS
-var roomEJS;
-fs.readFile('./views/room.ejs', 'utf8', function (error, data) {
-  if(error)
-    console.log(error)
-  else
-    roomEJS = data;
-});
-
-var loginEJS;
-fs.readFile('./views/login.ejs', 'utf8', function (error, data) {
-  if(error)
-    console.error(error);
-  else
-    loginEJS = data;
-});
-
-var errorEJS;
-fs.readFile('./views/error.ejs', 'utf8', function (error, data) {
-  if(error)
-    console.error(error);
-  else
-    errorEJS = data;
-});
-
-var indexEJS;
-fs.readFile('./views/list.ejs', 'utf8', function (error, data) {
-  if(error)
-    console.error(error);
-  else
-    indexEJS = data;
-});
 
 //Init Room List
 var publicRooms = [];
@@ -77,12 +43,12 @@ for(i = 0; i < rooms.length; i++){
 //Connection Handlers
 app.get('/', function(req, res){
     res.set('Content-Type', 'text/html');
-    res.status(200).send(ejs.render(indexEJS, {rooms: publicRooms}));
+    res.status(200).render("list.ejs", {rooms: publicRooms}));
 });
+
+app.set("views", path.resolve("views"));
 //Uses EJS
 var roomRouter = express.Router();
-
-
 
 roomRouter.get('/room/:id/', function(req, res,next){
     var id = req.params.id;
@@ -98,13 +64,13 @@ roomRouter.get('/room/:id/', function(req, res,next){
         }
     }
     if(roomName == null){
-        res.status(404).send(ejs.render(errorEJS, {title: 'Montreus Chat', error: "Uh oh! This room sadly doesn't exist."}));
+        res.status(404).render("error.ejs", {title: 'Montreus Chat', error: "Uh oh! This room sadly doesn't exist."}));
     }else{
         res.set('Content-Type', 'text/html');
         if(roomPassword != null){
-            res.status(200).send(ejs.render(roomEJS, {title: roomName, id: id, isPasswordProtected: true}));
+            res.status(200).render("room.ejs", {title: roomName, id: id, isPasswordProtected: true}));
         }else{
-            res.status(200).send(ejs.render(roomEJS, {title: roomName, id: id, isPasswordProtected: false}));
+            res.status(200).render("room.ejs", {title: roomName, id: id, isPasswordProtected: false}));
         }
       
     }
