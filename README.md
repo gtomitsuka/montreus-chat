@@ -1,22 +1,23 @@
 # montreus-chat
 ![Travis Build](https://travis-ci.org/gtomitsuka/montreus-chat.svg?branch=feature%2Fopen-sans)
 
-Montreus Chatting Solution, as you can find on http://chat.oratio.io/room/900.<br>
-It works with Node.js, and supports Markdown.<br> It includes tons of security: Protection against XSS scripting, against huge messages and thousands of robot connections that could take the server down.
+Montreus Chat, as you can find on http://chat.oratio.io/room/900.<br>
+It's based on Node.js + Express.js + Socket.IO, and supports *Markdown*.<br> It includes tons of security: Protection against XSS scripting, against huge messages and thousands of robot connections that could take the server down.
 
-## Installation
-For installing it, you must first make sure Node.js is installed, then create a directory for it and run:
-<br>
-  `npm install`
-<br>
-  `node app.js` or `forever start app.js`
+Database-less edition available on the `no-db` branch.
+
+## Installation Guide
+
+1. Clone the repo using `git clone https://github.com/gtomitsuka/montreus-chat.git`.
+1. Rename the `sample-config.json` to `config.json` and change it's config, if necessary.
+1. Rename the `sample-room.json` to `room.json` and create your own rooms!
+1. Run the `npm install` command on the repo's folder.
+1. And for starting the instance run `node .`. You should use the Forever or PM2 modules for deamonzing the chat.
 
 ## Commands
-These are the available Montreus Chat commands as of v1.5.x:
+These are the available Montreus Chat commands as of v2.4.x:
 
     /help
     /bot-say <message>
     /broadcast <message>
     /me
-
-Note: For using database enabled features, you'll have to insert your own MongoDB on `server/db.js`.
