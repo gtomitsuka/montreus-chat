@@ -43,7 +43,7 @@ for(i = 0; i < rooms.length; i++){
 //Connection Handlers
 app.get('/', function(req, res){
     res.set('Content-Type', 'text/html');
-    res.status(200).render("list.ejs", {rooms: publicRooms}));
+    res.status(200).render("list.ejs", {rooms: publicRooms});
 });
 
 app.set("views", path.resolve("views"));
@@ -64,13 +64,13 @@ roomRouter.get('/room/:id/', function(req, res,next){
         }
     }
     if(roomName == null){
-        res.status(404).render("error.ejs", {title: 'Montreus Chat', error: "Uh oh! This room sadly doesn't exist."}));
+        res.status(404).render("error.ejs", {title: 'Montreus Chat', error: "Uh oh! This room sadly doesn't exist."});
     }else{
         res.set('Content-Type', 'text/html');
         if(roomPassword != null){
-            res.status(200).render("room.ejs", {title: roomName, id: id, isPasswordProtected: true}));
+            res.status(200).render("room.ejs", {title: roomName, id: id, isPasswordProtected: true});
         }else{
-            res.status(200).render("room.ejs", {title: roomName, id: id, isPasswordProtected: false}));
+            res.status(200).render("room.ejs", {title: roomName, id: id, isPasswordProtected: false});
         }
       
     }
