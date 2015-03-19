@@ -10,7 +10,7 @@ Database-less edition available on the `no-db` branch.
 
 1. Clone the repo using `git clone https://github.com/gtomitsuka/montreus-chat.git`.
 1. Rename the `sample-config.json` to `config.json` and change it's config, if necessary.
-1. Rename the `sample-room.json` to `room.json` and create your own rooms.
+1. Rename the `sample-room.json` to `room.json` and create your own rooms!
 1. Run the `npm install` command on the repo's folder.
 1. And for starting the instance run `node .`. You should use the Forever or PM2 modules for deamonzing the chat.
 
