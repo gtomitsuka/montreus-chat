@@ -1,15 +1,17 @@
-/* server/db.js
- * MongoDB communicator for Montreus Chat. Optional module!
+/* montreus-chat
+ * server/db.js
+ * MongoDB communicator for Montreus Chat.
  */
  
- //APIs
- var mongoose = require("mongoose");
- 
+//NPM Modules
+var mongoose = require("mongoose");
+
 //Globals
+var config = require("./config");
 var Schema = mongoose.Schema;
 
 //Startup Routines
-mongoose.connect('mongodb://localhost/chat-db', {server: { poolSize: 5, keepAlive: 1 } },function (error) {
+mongoose.connect(config.database.address, {server: { poolSize: 5, keepAlive: 1 } },function (error) {
   if (error) {
       console.warn(error);
     }else{
