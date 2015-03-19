@@ -18,7 +18,7 @@ var markdownIt = require('markdown-it');
 
 //montreus-chat Modules
 var rooms = require("./room"); //JSON with Rooms
-var db = require("./db");
+var db = require("./database");
 var errorPage = require("./error-page");
 
 //Module Setup
