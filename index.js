@@ -241,7 +241,7 @@ var otherWords = function(string){
     }
     return string.substr(string.indexOf(" ") + 1,string.length);
 }
-http.listen(3030, function(){
+server.listen(3030, function(){
             console.log('listening on *:3030');
             });
 var verifyEmptyness = function(str) {
