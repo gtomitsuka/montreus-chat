@@ -7,10 +7,9 @@
  
 //Globals
 var Schema = mongoose.Schema;
-var ObjectId = mongoose.Types.ObjectId; 
 
 //Startup Routines
-mongoose.connect('mongodb://localhost/chat-db', function (error) {
+mongoose.connect('mongodb://localhost/chat-db', {server: { poolSize: 5, keepAlive: 1 } },function (error) {
   if (error) {
       console.warn(error);
     }else{
