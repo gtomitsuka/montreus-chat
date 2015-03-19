@@ -1,0 +1,13 @@
+[{
+  "name" : "Sandbox",
+  "number" : 900,
+  "roomId" : "MT900",
+  "password" : null,
+  "public" : true
+}, {
+  "name" : "Home",
+  "number" : 101010,
+  "roomId" : "MT101010",
+  "password" : null,
+  "public" : true
+}]
