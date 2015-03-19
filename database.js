@@ -1,5 +1,5 @@
 /* montreus-chat
- * server/db.js
+ * server/database.js
  * MongoDB communicator for Montreus Chat.
  */
  
