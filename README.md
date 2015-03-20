@@ -15,7 +15,7 @@ Database-less edition available on the `no-db` branch.
 1. And for starting the instance run `node .`. You should use the Forever or PM2 modules for deamonzing the chat.
 
 ## Commands
-These are the available Montreus Chat commands as of v2.4.x:
+These are the available Montreus Chat commands as of v2.7.x:
 
     /help
     /bot-say <message>
