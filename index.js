@@ -18,7 +18,6 @@ var markdownIt = require('markdown-it');
 
 //montreus-chat Modules
 var rooms = require("./room"); //JSON with Rooms
-var db = require("./database");
 var errorPage = require("./error-page");
 
 //Module Setup
@@ -114,25 +113,6 @@ io.on('connection', function(socket){
             }
         }
 
-        if(!isPublic) {
-            if(roomPassword + '' == enteredPassword){
-                db.find(socket.handshake.query.room).then(function(messages){
-                    socket.emit('old messages', messages);
-             
-                }, function(error){
-                    socket.emit('error event', 'Uh oh! An error ocurred: ' + error.message);
-                });
-            }else{
-                socket.emit('error event', 'Incorrect password, please refresh the page and try again.');
-            }
-        }else{
-            db.find(socket.handshake.query.room).then(function(messages){
-                socket.emit('old messages', messages)
-            }, function(error){
-                socket.emit('error event', 'Uh oh! An error ocurred: ' + error.message);
-            });
-        }
-
         socket.on('postName', function(username){
                 socket.username = username;
                 });
@@ -143,7 +123,6 @@ io.on('connection', function(socket){
                 var result = processMessage(msg);
                 if(result.sendToAll === true){
                     io.in(socket.handshake.query.room).emit('chat message', result);
-                    db.add(result, socket.handshake.query.room);
                 }else{
                     socket.emit('chat message', result);
                 }
