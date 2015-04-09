@@ -61,13 +61,12 @@ roomRouter.get('/room/:id/', function(req, res,next){
     var roomName;
     var roomId;
     var roomPassword;
-    for(var i = 0; i < rooms.length; i++){
-      var room = rooms[i];
-        if(room.number == id){
-            roomName = room.name;
-            roomId = room.roomId;
-            roomPassword = room.password;
-        }
+    var roomIndex = rooms.indexOf(socket.handshake.query.room);
+    if(roomIndex != -1){
+        var room = rooms[roomIndex];
+        roomName = room.name;
+        roomId = room.roomId;
+        roomPassword = room.password;
     }
     if(roomName == null){
         res.status(404).render("error.ejs", {title: 'Montreus Chat', error: "Uh oh! This room sadly doesn't exist."});
@@ -103,16 +102,16 @@ io.on('connection', function(socket){
         var roomPassword;
         var isPublic;
         var enteredPassword = socket.handshake.query.password;
-        //Search for room with the name
-        for(var i = 0; i < rooms.length; i++){
-            var room = rooms[i];
-            if(room.number == socket.handshake.query.room){
-                roomName = room.name;
-                roomId = room.roomId;
-                roomPassword = room.password;
-                isPublic = room.public;
-            }
+        //Look for room with the name
+        var roomIndex = rooms.indexOf(socket.handshake.query.room);
+        if(roomIndex != -1){
+            var room = rooms[roomIndex];
+            roomName = room.name;
+            roomId = room.roomId;
+            roomPassword = room.password;
+            isPublic = room.public;
         }
+    }
 
         if(!isPublic) {
             if(roomPassword + '' == enteredPassword){
