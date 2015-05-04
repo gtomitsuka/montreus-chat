@@ -1,99 +1,93 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-  <title><%= title %></title>
-  <base target="_blank">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" type="text/css" href="../../reset.css"> 
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <base target="_blank">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../reset.css">
     <link type="text/css" rel="stylesheet" href="../../bootstrap.min.css" />
-<!--   <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">  -->
-  <link type="text/css" rel="stylesheet" href="../../jquery.mmenu.all.css" />
-
-  <link type="text/css" rel="stylesheet" href="../../alertify.min.css" />
-  <link type="text/css" rel="stylesheet" href="../../themes/bootstrap.min.css" />
-  <link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
-
-
-</head>
-<body>
+    <link type="text/css" rel="stylesheet" href="../../jquery.mmenu.all.css" />
+    <link type="text/css" rel="stylesheet" href="../../alertify.min.css" />
+    <link type="text/css" rel="stylesheet" href="../../themes/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
+  </head>
+  <body>
     <div id="content">
-        <header>
-            <h1>
-                <a href="#sidebar">
-                    <div class="border-menu">
-                    </div>
-                </a>
-                <span><%= title %></span>
-            </h1>
-        </header>
-        <div id="main">
-            <ul id="messages">
-  
-            </ul>
-            <form class="form-inline" action="">
-                <div id="message-div" class="form-group">
-                    <div id="message-input-div">
-                        <input autocomplete="off" class="form-control" id="messageInput" type="text" placeholder="Your message">
-                    </div>
-                    <div id="message-send-button-div">
-                        <a id="message-send-button" class="button postfix">Send Message</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div id="replaceHolder"></div>
-        <div id="sidebar">
-            <!-- Here's a div needed because the mmenu plugin would otherwise only display the first div. That means you wouldn't see the footer of the sidebar -->
-            <div>
-                <div>
-                    <p class="username" style=""></p>
-                    <div style="width: 100%; text-align: center; position: relative; font-size:14px;">
-                        <button class="radius" name="button" onClick="changeUsername()">
-                            Change Username
-                        </button>
-                        <br>
-                        <button class="radius" name="button" style="top: 11%;" onClick="changeRoom()">
-                            Change Room
-                        </button>
-                        <br>
-                        <button class="radius" id="notificationButton" name="button" style="top: 11%;" onClick="addNotifications()">
-                            Enable Notifications
-                        </button>
-                    </div>
-                    <br>
-                    <p class="connectionLabel" style="position: relative; width:100%; text-align: center; color: white; font-size: 16px">
-                    </p>
-                    <br>
-                </div>
-                <div style="clear:both;"></div>
-                <footer>
-                    <p id="github-link">
-                        <a href="http://github.com/gtomitsuka/montreus-chat" target="_blank">
-                            GitHub Source
-                        </a>
-                    </p>
-                    <p id="copyright">
-                        &#0169;2015 by Montreus S-AG.
-                    </p>
-                </footer>
-                <div style="clear:both;"></div>
+      <header>
+        <h1>
+          <a href="#sidebar">
+            <div class="border-menu">
             </div>
-            <div style="clear:both;"></div>
+          </a>
+          <span><%= title %></span>
+        </h1>
+      </header>
+      <div id="main">
+        <ul id="messages">
+        </ul>
+        <form class="form-inline" action="">
+          <div id="message-div" class="form-group">
+            <div id="message-input-div">
+              <input autocomplete="off" class="form-control" id="messageInput" type="text" placeholder="Your message">
+            </div>
+            <div id="message-send-button-div">
+              <a id="message-send-button" class="button postfix">Send Message</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="replaceHolder"></div>
+      <div id="sidebar">
+        <!-- Here's a div needed because the mmenu plugin would otherwise only display the first div. That means you wouldn't see the footer of the sidebar -->
+        <div>
+          <div>
+            <p class="username" style=""></p>
+            <div style="width: 100%; text-align: center; position: relative; font-size:14px;">
+              <button class="radius" name="button" onClick="changeUsername()">
+              Change Username
+              </button>
+              <br>
+              <button class="radius" name="button" style="top: 11%;" onClick="changeRoom()">
+              Change Room
+              </button>
+              <br>
+              <button class="radius" id="notificationButton" name="button" style="top: 11%;" onClick="addNotifications()">
+              Enable Notifications
+              </button>
+            </div>
+            <br>
+            <p class="connectionLabel" style="position: relative; width:100%; text-align: center; color: white; font-size: 16px">
+            </p>
+            <br>
+          </div>
+          <div style="clear:both;"></div>
+          <footer>
+            <p id="github-link">
+              <a href="http://github.com/gtomitsuka/montreus-chat" target="_blank">
+              GitHub Source
+              </a>
+            </p>
+            <p id="copyright">
+              &#0169;2015 by Montreus S-AG.
+            </p>
+          </footer>
+          <div style="clear:both;"></div>
         </div>
-        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="../../jquery.mmenu.min.all.js"></script>
-        <script src="../../alertify.min.js"></script>
-        <script src="../../room.js"></script>
+        <div style="clear:both;"></div>
+      </div>
+      <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+      <script type="text/javascript" src="../../jquery.mmenu.min.all.js"></script>
+      <script src="../../alertify.min.js"></script>
+      <script src="../../room.js"></script>
     </div>
     <div id="no-js">
-        <h1>Montreus Chat</h1>
-        <div>
+      <h1>Montreus Chat</h1>
+      <div>
         <p>Sorry, Montreus Chat only works with JavaScript enabled.<br>If you want to join the chat, please enable JavaScript in your browser.</p>
-        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
