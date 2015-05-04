@@ -15,7 +15,7 @@ function checkInputs(container) {
 }
 var currentUser = '';
 var socket;
-const USERNAME_STORAGE_KEY = 'MTChat_Username';
+var USERNAME_STORAGE_KEY = 'MTChat_Username';
 var nameMessageHTMLPatternBegin = "Welcome, ";
 var usingNotifications;
 $(function () {
@@ -175,7 +175,7 @@ function login() {
 
   var passwordHTML = '<div class="input-group"><label>Password</label><input type="password" class="form-control" id="login-password-input" placeholder="Enter password"></div>'
 
-  if ( <%= isPasswordProtected %> ) {
+  if (_isPasswordProtected){
 
     if (isUsernameSet) {
       alertify
@@ -265,7 +265,7 @@ var connect = function (username, password) {
 
   $(".username").html(nameMessageHTMLPatternBegin + currentUser);
   responsiveSidebar();
-  var connectionQuery = "username=" + currentUser + "&password=" + password + "&room=<%= id %>";
+  var connectionQuery = "username=" + currentUser + "&password=" + password + "&room=" + _currentRoom;
   socket = io.connect("", {
     query: connectionQuery
   });
