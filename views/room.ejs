@@ -1,450 +1,97 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta charset="utf-8">
-  <title><%= title %></title>
-  <base target="_blank">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-
-  <link rel="stylesheet" type="text/css" href="../../reset.css"> 
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <base target="_blank">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../../reset.css">
     <link type="text/css" rel="stylesheet" href="../../bootstrap.min.css" />
-<!--   <link href="http://cdn.foundation5.zurb.com/foundation.css" rel="stylesheet" type="text/css">  -->
-  <link type="text/css" rel="stylesheet" href="../../jquery.mmenu.all.css" />
-
-  <link type="text/css" rel="stylesheet" href="../../alertify.min.css" />
-  <link type="text/css" rel="stylesheet" href="../../themes/bootstrap.min.css" />
-  <link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
-
-
-</head>
-<body>
+    <link type="text/css" rel="stylesheet" href="../../jquery.mmenu.all.css" />
+    <link type="text/css" rel="stylesheet" href="../../alertify.min.css" />
+    <link type="text/css" rel="stylesheet" href="../../themes/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="../../stylesheet.css" />
+  </head>
+  <body>
     <div id="content">
-        <header>
-            <h1>
-                <a href="#sidebar">
-                    <div class="border-menu">
-                    </div>
-                </a>
-                <span><%= title %></span>
-            </h1>
-        </header>
-        <div id="main">
-            <ul id="messages">
-  
-            </ul>
-            <form class="form-inline" action="">
-                <div id="message-div" class="form-group">
-                    <div id="message-input-div">
-                        <input autocomplete="off" class="form-control" id="messageInput" type="text" placeholder="Your message">
-                    </div>
-                    <div id="message-send-button-div">
-                        <a id="message-send-button" class="button postfix">Send Message</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div id="replaceHolder"></div>
-        <div id="sidebar">
-            <!-- Here's a div needed because the mmenu plugin would otherwise only display the first div. That means you wouldn't see the footer of the sidebar -->
-            <div>
-                <div>
-                    <p class="username" style=""></p>
-                    <div style="width: 100%; text-align: center; position: relative; font-size:14px;">
-                        <button class="radius" name="button" onClick="changeUsername()">
-                            Change Username
-                        </button>
-                        <br>
-                        <button class="radius" name="button" style="top: 11%;" onClick="changeRoom()">
-                            Change Room
-                        </button>
-                        <br>
-                        <button class="radius" id="notificationButton" name="button" style="top: 11%;" onClick="addNotifications()">
-                            Enable Notifications
-                        </button>
-                    </div>
-                    <br>
-                    <p class="connectionLabel" style="position: relative; width:100%; text-align: center; color: white; font-size: 16px">
-                    </p>
-                    <br>
-                </div>
-                <div style="clear:both;"></div>
-                <footer>
-                    <p id="github-link">
-                        <a href="http://github.com/gtomitsuka/montreus-chat" target="_blank">
-                            GitHub Source
-                        </a>
-                    </p>
-                    <p id="copyright">
-                        &#0169;2015 by Montreus S-AG.
-                    </p>
-                </footer>
-                <div style="clear:both;"></div>
+      <header>
+        <h1>
+          <a href="#sidebar">
+            <div class="border-menu">
             </div>
-            <div style="clear:both;"></div>
+          </a>
+          <span><%= title %></span>
+        </h1>
+      </header>
+      <div id="main">
+        <ul id="messages">
+        </ul>
+        <form class="form-inline" action="">
+          <div id="message-div" class="form-group">
+            <div id="message-input-div">
+              <input autocomplete="off" class="form-control" id="messageInput" type="text" placeholder="Your message">
+            </div>
+            <div id="message-send-button-div">
+              <a id="message-send-button" class="button postfix">Send Message</a>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="replaceHolder"></div>
+      <div id="sidebar">
+        <!-- Here's a div needed because the mmenu plugin would otherwise only display the first div. That means you wouldn't see the footer of the sidebar -->
+        <div>
+          <div>
+            <p class="username" style=""></p>
+            <div style="width: 100%; text-align: center; position: relative; font-size:14px;">
+              <button class="radius" name="button" onClick="changeUsername()">
+              Change Username
+              </button>
+              <br>
+              <button class="radius" name="button" style="top: 11%;" onClick="changeRoom()">
+              Change Room
+              </button>
+              <br>
+              <button class="radius" id="notificationButton" name="button" style="top: 11%;" onClick="addNotifications()">
+              Enable Notifications
+              </button>
+            </div>
+            <br>
+            <p class="connectionLabel" style="position: relative; width:100%; text-align: center; color: white; font-size: 16px">
+            </p>
+            <br>
+          </div>
+          <div style="clear:both;"></div>
+          <footer>
+            <p id="github-link">
+              <a href="http://github.com/gtomitsuka/montreus-chat" target="_blank">
+              GitHub Source
+              </a>
+            </p>
+            <p id="copyright">
+              &#0169;2015 by Montreus S-AG.
+            </p>
+          </footer>
+          <div style="clear:both;"></div>
         </div>
-        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="../../jquery.mmenu.min.all.js"></script>
-        <script src="../../alertify.min.js"></script>
-        <script>
-        function checkInputs(container){
-                var allValid = true;
-                $(container).find('input').each(function(){
-                    var value = $(this).val();
-                    if(!(verifyEmptyness(value))){
-                        $(this).parent().removeClass('has-error').addClass('has-success');
-                    }else{
-                        $(this).parent().addClass('has-error').removeClass('has-success');
-                        allValid = false;
-                    }
-               
-                    
-                });
-                 return allValid;
-            }
-            var currentUser = '';
-            var socket;
-            const USERNAME_STORAGE_KEY = 'MTChat_Username';
-            var nameMessageHTMLPatternBegin = "Welcome, ";
-            var usingNotifications;
-            $(function(){
-
-                $('html').addClass('js');
-                
-                alertify.defaults.transition = "slide";
-                alertify.defaults.theme.ok = "btn btn-primary";
-                alertify.defaults.theme.cancel = "btn btn-danger";
-                alertify.defaults.theme.input = "form-control";
-                alertify.dialog('loginAlert',function factory(){
-                    return{
-                        build:function(){
-                            var header = '<span class="fa fa-times-circle fa-2x" '
-                                            + 'style="vertical-align:middle;color:#e10000;">'
-                                            + '</span> Login';
-                            this.setHeader(header);
-                        },
-                        options: {
-                            closableByDimmer: true,
-                            resizable: false
-                        },
-                        callback: function(e){
-                           /* alert('g');
-                            if(checkInputs()){                             
-                                connect($('#login-username-input').val(), $('#login-password-input').val());
-                            }else{
-
-                            }*/
-                        },
-                        prepare: function(){
-                            $('#login-button').click(function(e){
-                                var content =$(this).parents('.ajs-dialog').eq(0).find('.ajs-content').eq(0);
-                                if(checkInputs(content)){                          
-                                    connect($('#login-username-input').val(), $('#login-password-input').val());
-                                }else{
-                                    e.preventDefault(); e.stopPropagation();
-                                }
-                            });
-                        },
-                        setup:function(){
-                            return {
-                            /* buttons collection */
-                                buttons:[
-                    
-                                    /*button defintion*/
-                                    {
-                                    /* button label */
-                                        text: 'OK',
-                                        className: alertify.defaults.theme.ok,
-                                        attrs:{id:'login-button',
-                                        invokeOnClose: true}
-                                    }
-                                ]
-                            };
-            
-                        }
-                    }
-                },false,'alert');
-
-                alertify.dialog('newUsernamePrompt',function factory(){
-                    return{
-                        build:function(){
-                            var header = '<span class="fa fa-times-circle fa-2x" '
-                                            + 'style="vertical-align:middle;color:#e10000;">'
-                                            + '</span> Login';
-                            this.setHeader(header);
-                        },
-                        options: {
-                            closableByDimmer: true,
-                            resizable: false
-                        },
-                        prepare: function(){
-                            $('#change-username-button').click(function(e){
-                                var content = $(this).parents('.ajs-dialog').eq(0).find('.ajs-content').eq(0);
-                                if(checkInputs(content)){      
-                                    var oldUsername = currentUser;
-                                    var username = $('#username-input').val(); 
-                                    setLocalStorageItem(USERNAME_STORAGE_KEY, username);
-                                    currentUser = username;
-                                    $(".username").html(nameMessageHTMLPatternBegin + currentUser);
-                                    socket.emit('postName', currentUser);   
-                                }else{
-                                    e.preventDefault(); e.stopPropagation();
-                                }
-                            });
-                        },
-                        setup:function(){
-                            return {
-                            /* buttons collection */
-                                buttons:[
-                                    /*button defintion*/
-                                    {
-                                    /* button label */
-                                        text: 'OK',
-                                        className: alertify.defaults.theme.ok,
-                                        attrs:{id:'change-username-button'}
-                                    }
-                                ]
-                            };
-            
-                        }
-                    }
-                },false,'alert');
-
-                
-                alertify.dialog('errorAlert',function factory(){
-                    return{
-                        build:function(){
-                            var header = '<span class="fa fa-times-circle fa-2x" '
-                                            + 'style="vertical-align:middle;color:#e10000;">'
-                                            + '</span> Error';
-                            this.setHeader(header);
-                        },
-                        options: {
-                            closableByDimmer: true,
-                            resizable: false
-                        },
-                        prepare: function(){
-                        },
-                        setup:function(){
-                            return {
-                                buttons:[
-                                ]
-                            };
-            
-                        }
-                    }
-                },false,'alert');
-
-          
-
-                login();
-
-
-
-
-            });
-
-
-            function login(){
-                
-                var isUsernameSet = false;
-                try{
-                    if (typeof localStorage !== 'undefined') {
-
-                        usingNotifications = localStorage.getItem('MTChat_Notifications');
-
-                        var username = localStorage.getItem(USERNAME_STORAGE_KEY);
-                    
-                        if(username != null && !(verifyEmptyness(username))){
-                            isUsernameSet = true;
-                            currentUser = username;
-                        }
-                       
-                    }
-                }catch(e){
-                }
-               
-
-               var passwordHTML = '<div class="input-group"><label>Password</label><input type="password" class="form-control" id="login-password-input" placeholder="Enter password"></div>'
-
-                if(<%= isPasswordProtected %>){
-   
-                    if(isUsernameSet){
-                        alertify
-                        .loginAlert('<div class="input-group"><label for="username">Your username:</label><input value="' + currentUser + '" type="text" class="form-control" id="login-username-input" placeholder="Enter username"></div>' + passwordHTML).set({'closableByDimmer': false, 'overflow': false,  'closable': false, 'resizable': false, 'maximizable': false});
-
-                    }else{
-                        alertify
-                        .loginAlert('<div class="input-group"><label for="username">Your username:</label><input type="text" class="form-control" id="login-username-input" placeholder="Enter username"></div>' + passwordHTML).set({'closableByDimmer': false, 'overflow': false,  'closable': false, 'resizable': false, 'maximizable': false});
-                    }
-
-                }else{
-                    if(isUsernameSet){
-                        connect(username,'');
-                    }else{
-                        alertify
-                        .loginAlert('<div class="input-group"><label for="username">Your username:</label><input type="text" class="form-control" id="login-username-input" placeholder="Enter username"></div>').set({'closableByDimmer': false, 'overflow': false, 'closable': false, 'resizable': false, 'maximizable': false});
-                    }
-
-                }
-
-       
-            }
-
-            function responsiveSidebar(){
-                sidebarHTML = $('#sidebar').eq(0).clone().wrapAll('<div>').parent().html();
-                $('#sidebar').mmenu();
-                if($( document ).width() >= 850){
-                    $('#replaceHolder').html(sidebarHTML);
-                }
-                $( window ).resize(function() {
-                    $("#sidebar").trigger("close.mm");
-                    if($( document ).width() < 850){
-                        $('#replaceHolder').html('');
-                    }else{
-                       $('#replaceHolder').html(sidebarHTML);
-                    }
-                });
-            }
-            
-
-            function setLocalStorageItem(propertyName, value){
-                try{
-                    if (typeof localStorage !== 'undefined') {
-                        localStorage.setItem(propertyName, value);
-                    }
-                }catch(e){
-                }
-            }
-
-
-
-            function changeUsername(){
-                alertify
-                    .newUsernamePrompt('<div class="form-group"><label for="username">Your current username is ' + currentUser + '.\nType in a new username:</label><input type="text" class="form-control" id="username-input" placeholder="Enter username"></div>').set({'closableByDimmer': false});
-            }
-            //Thanks to Jano González from SE for this
-            var verifyEmptyness = function(str) {
-                return (str.length === 0 || !str.trim());
-            };
-            var isNumber = function(obj) {
-                return (!jQuery.isArray(obj) && (obj - parseFloat(obj) + 1) >= 0);
-            }
-            var connect = function(username, password){
-                $('body').addClass('js');
-                $("html, body").scrollTop($(document).height());
-                setLocalStorageItem(USERNAME_STORAGE_KEY, username);            
-                currentUser = username;    
-
-                $(".username").html(nameMessageHTMLPatternBegin + currentUser);
-                responsiveSidebar();
-                var connectionQuery = "username=" + currentUser + "&password=" + password + "&room=<%= id %>";
-                 socket = io.connect("" , {query:connectionQuery});
-                var messageSendForm = $('form');
-                messageSendForm.submit(function(e){
-                    e.preventDefault(); //For avoiding that the page auto refreshes
-                    e.stopPropagation();
-                    var messageInput = $('#messageInput').val();
-                    if(!verifyEmptyness(messageInput)){
-                        var messageToSend = {
-                            message: messageInput,
-                            username: currentUser
-                        };
-                        socket.emit('chat message', messageToSend);
-                        $('#messageInput').val('');
-                        return false;
-                    }
-                });
-
-
-                //Notification Startup
-                if(usingNotifications == true)
-                    changeNotificationsStatus(true);
-
-
-                socket.on('old messages', function(messages){
-
-                    var messagesContainer = $('#messages');
-                    var htmlMessages = '';
-                    for(var i=0; i < messages.length; i++) {
-
-                        htmlMessages += '<li style="display: table; width: 100%;"><p class="alignLeft">' + messages[i].result.username + messages[i].result.usernameMessageSperator + messages[i].result.message + '</p><p class="alignRight">' + messages[i].result.time + '</p></li>';
-                    } 
-
-                    messagesContainer.append(htmlMessages);
-                    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-                   
-                });
-                socket.on('error event', function(message){
-                    alertify.errorAlert(message).set({'closableByDimmer': false, 'overflow': false,  'closable': false, 'resizable': false, 'maximizable': false});;
-                });
-
-                socket.on('chat message', function(result){
-                    var isBottom = false;
-                    if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-                        isBottom = true;
-                    }
-                    $('#messages').append('<li style="display: table; width: 100%;">' + '<p class="alignLeft">' + result.username + result.usernameMessageSperator + result.message + '</p><p class="alignRight">' + result.time + '</p></li>');
-                    if(usingNotifications == true && result.username != currentUser)
-                        new Notification(result.username, {body: result.message});
-                    if(isBottom){
-                         $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-                    }
-                });
-                socket.on('connections', function(userList){
-
-                    if(userList === 1){
-                        $(".connectionLabel").html("There is currently 1 user online");
-                    }else if(isNumber(userList) === true){
-                        $(".connectionLabel").html("There are currently " + userList + " users online");
-                    }else{
-                        $(".connectionLabel").html(userList);
-                    }
-                });
-                /* This part is needed to make a responsive sidebar: */
-                
-                $('#message-send-button').click(function(){$('form').submit();});
-
-}
-       
-            function changeRoom(){
-                var newRoomId = prompt("Type in the new room's id:");
-                if(isNumber(newRoomId)){
-                    window.location.assign("../../room/" + newRoomId);
-                }else{
-                    alert("Invalid room ID");
-                }
-            }
-            function addNotifications(){
-              if(usingNotifications != true){
-                Notification.requestPermission( function(status) {
-                    if (Notification.permission !== status) {
-                      Notification.permission = status;
-                    }
-                    if(Notification.permission == "granted")
-                        changeNotificationsStatus(true);
-                });
-              }else{
-                changeNotificationsStatus(false);
-              }
-            }
-
-            var changeNotificationsStatus = function(status){
-                usingNotifications = status;
-                localStorage.setItem('MTChat_Notifications', status);
-                if(status == true)
-                $('div #notificationButton').text('Disable Notifications');
-                else
-                $('div #notificationButton').text('Enable Notifications');
-            }
-        </script>
+        <div style="clear:both;"></div>
+      </div>
+      <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+      <script type="text/javascript" src="../../jquery.mmenu.min.all.js"></script>
+      <script src="../../alertify.min.js"></script>
+      <script>
+      var _isPasswordProtected = "<%= isPasswordProtected %>";
+      var _currentRoom = "<%= id %>";
+      </script>
+      <script src="../../room.js"></script>
     </div>
     <div id="no-js">
-        <h1>Montreus Chat</h1>
-        <div>
+      <h1>Montreus Chat</h1>
+      <div>
         <p>Sorry, Montreus Chat only works with JavaScript enabled.<br>If you want to join the chat, please enable JavaScript in your browser.</p>
-        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
