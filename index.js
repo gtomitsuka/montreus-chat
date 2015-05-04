@@ -94,7 +94,7 @@ app.use(errorPage);
 
 //Sockets
 io.on('connection', function(socket){
-      if(socketConnections().length <= 1024){
+    if(socketConnections().length <= 1024){
         socket.username = socket.handshake.query.username;
         socket.join(socket.handshake.query.room);
         var roomName;
@@ -111,7 +111,6 @@ io.on('connection', function(socket){
             roomPassword = room.password;
             isPublic = room.public;
         }
-    }
 
         if(!isPublic) {
             if(roomPassword + '' == enteredPassword){
